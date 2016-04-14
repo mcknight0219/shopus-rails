@@ -1,3 +1,4 @@
+require 'nokigiri'
 require 'digest/sha1'
 
 class MainController < ApplicationController
@@ -6,6 +7,9 @@ class MainController < ApplicationController
   end
 
   def disptach
+    r = Message.new(Nokogiri::Slop request.body.read).getRespond
+    # Response could either be a Message or a simple 'success'
+    if r.is_a? Message then render xml: r else render text: r, content_type: 'text/plain'
   end
 
   private
