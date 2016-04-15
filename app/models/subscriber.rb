@@ -5,5 +5,6 @@ class Subscriber < ActiveRecord::Base
   private
     def set_default_value
       self.is_seller = false
+      self.active = true
     end
 end

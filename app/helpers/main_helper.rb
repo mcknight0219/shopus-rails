@@ -1,8 +1,7 @@
 module MainHelper
 
   def dispatch_message(msg)
-    yield SubscriberStrategy.ingest msg if msg.subscribe_event?
-    yield UserStrategy.ingest msg       if msg.user_sent?
+    yield Strategy.Subscribe.ingest msg if msg.subscribe_event?
   end
 
   def extract_hash_from_xml(doc)
@@ -32,7 +31,7 @@ module MainHelper
             # Scan to subscribe event
             extra[:event_key => xml.EventKey.content, :ticket => xml.Ticket.content] if xml.has_attribute?('EventKey')
           else
-            raise StandardError
+
         end
         attrs[:extra] = extra
       else

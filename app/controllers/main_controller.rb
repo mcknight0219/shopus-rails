@@ -3,13 +3,11 @@ require 'digest/sha1'
 
 class MainController < ApplicationController
 
-  rescue_from StandardError, with: error_unknown_msg_event
-
   def index
     first_time? and render text: check_signature_and_return, content_type: 'text/plain'  
   end
 
-  def dispatch
+  def create
     m = Message.new(extract_hash_from_xml (Nokogiri::Slop request.body.read).xml)
     dispatch_message m do |r|
       # Response could either be a xml string or a simple 'success'
@@ -31,10 +29,5 @@ class MainController < ApplicationController
     # all required fields exist
     def first_time?
       (['signature', 'nonce', 'echostr', 'timestamp'].select { |i| !params.key? i}).empty?
-    end
-
-
-    def error_unknown_msg_event
-      Rails.logger.error 'Unknown message event type'
     end
 end
