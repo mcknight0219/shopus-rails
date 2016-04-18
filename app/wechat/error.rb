@@ -9,23 +9,8 @@ module Wechat
 
     class << self
       def from_response(body)
-        message, code = parse_error(body)
-        if code == 0
-          new(message, code)
-        else
-          nil
-        end
+        new(body[:errmsg], body[:errcode])
       end
-
-      private
-
-        def parse_error(body)
-          if body.nil? || body.empty? || ! body.has_key?(:errcode)
-            ['', nil]
-          elsif body[:errcode]
-            [body[:errmsg], body[:errcode]]
-          end
-        end
     end
   end
 end

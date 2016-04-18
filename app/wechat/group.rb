@@ -1,5 +1,6 @@
 module Wechat
   module Group
+    include Api
     # Create a new named group
     #
     # @return Json
@@ -13,7 +14,7 @@ module Wechat
     #
     #
     def create(name)
-      Wechat.perform_request 'post', 'groups/create', :json => {:name => name}
+      perform_request 'post', 'groups/create', :json => {:name => name}
     end
 
     # Get all groups
@@ -36,7 +37,7 @@ module Wechat
     # }
     #
     def get
-      Wechat.perform_request 'get', 'groups/get'
+      perform_request 'get', 'groups/get'
     end
 
     # Query the group id for a subscriber
@@ -47,21 +48,21 @@ module Wechat
     #   "groupid": 102
     # }
     def get_id(open_id)
-      Wechat.perform_request 'post', 'groups/getid', :json => {:openid => openid}
+      perform_request 'post', 'groups/getid', :json => {:openid => openid}
     end
 
     # Change the name of a group
     #
     # @return Json
     def update(id, name)
-      Wechat.perform_request 'post', 'groups/update', :json => {:group => {:id => id, :name => name}}
+      perform_request 'post', 'groups/update', :json => {:group => {:id => id, :name => name}}
     end
 
     # Move a user to specific group
     #
     # @return Json
     def move_user_group(open_id, group_id)
-      Wechat.perform_request 'post', 'groups/member', :json => {:openid => opend_id, :to_groupid => group_id}
+      perform_request 'post', 'groups/member', :json => {:openid => opend_id, :to_groupid => group_id}
     end
 
     # Delelte a group. All users inside this group will be moved to
@@ -69,7 +70,7 @@ module Wechat
     #
     # @return Json
     def delete(id)
-      Wechat.perform_request 'post', 'groups/delete', :json => {:group => {:id => id}}
+      perform_request 'post', 'groups/delete', :json => {:group => {:id => id}}
     end
   end
 end

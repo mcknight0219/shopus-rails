@@ -1,5 +1,6 @@
 module Wechat
   module Asset
+    include Api
     ##
     # Get the count of a type of asset
     #
@@ -12,7 +13,7 @@ module Wechat
     #   "news_count": 4
     # }
     def count(type=nil)
-        counts = Wechat.perform_request 'get', 'material/get_materialcount'
+        counts = perform_request 'get', 'material/get_materialcount'
         return counts if type.nil? or ! %W(voice video image news).include? type
         return counts.reject {|k, v| k != type}
     end
@@ -22,7 +23,7 @@ module Wechat
     #
     # @return Hash
     def delete(media_id)
-      Wechat.perform_request 'post', 'material/del_material', :json => {:media_id => media_id}
+      perform_request 'post', 'material/del_material', :json => {:media_id => media_id}
     end
 
     ##
@@ -36,7 +37,7 @@ module Wechat
     #   "created_at":123456789
     # }
     def media_upload(type, path)
-      Wechat.perform_request 'post', 'media/upload', :params => {:type => type}, :form => {:media => HTTP::FormData::File.new(path)}
+      perform_request 'post', 'media/upload', :params => {:type => type}, :form => {:media => HTTP::FormData::File.new(path)}
     end
 
     ##
@@ -44,7 +45,7 @@ module Wechat
     #
   # @return Stream
     def media_get(media_id)
-      Wechat.perform_request 'get', 'media/get', :params => {:media_id => media_id}
+      perform_request 'get', 'media/get', :params => {:media_id => media_id}
     end
 
     ##
@@ -73,7 +74,7 @@ module Wechat
     #   "url":  "http://mmbiz.qpic.cn/mmbiz/gLO17UPS6FS2xsypf378iaNhWacZ1G1UplZYWEYfwvuU6Ont96b1roYs CNFwaRrSaKTPCUdBK9DgEHicsKwWCBRQ/0"
     # }
     def upload_img(path)
-      Wechat.perform_request 'post', 'mediaimg', :form => {:media => HTTP::FormData::File.new(path)}
+      perform_request 'post', 'mediaimg', :form => {:media => HTTP::FormData::File.new(path)}
     end
   end
 end

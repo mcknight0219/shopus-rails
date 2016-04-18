@@ -1,11 +1,12 @@
 module Wechat
   module Menu
+    include Api
     ##
     # Create menu layout defined as json
     #
     # @return Json
     def create(menu)
-      Wechat.perform_request 'post', 'menu/create', :json => menu
+      perform_request 'post', 'menu/create', :json => menu
     end
 
     ##
@@ -37,7 +38,7 @@ module Wechat
     # }
     #
     def get
-      Wechat.perform_request 'get', 'menu/get'
+      perform_request 'get', 'menu/get'
     end
 
     ##
@@ -45,7 +46,8 @@ module Wechat
     #
     # @return Boolean
     def has_conditional?
-      get.key?(:conditional)
+      body = get
+      body.key?(:conditionalmenu)
     end
 
     ##
@@ -53,7 +55,7 @@ module Wechat
     #
     # @return Json
     def delete
-      Wechat.perform_request 'get', 'menu/delete'
+      perform_request 'get', 'menu/delete'
     end
 
     ##
@@ -65,7 +67,7 @@ module Wechat
     #   "menuid": "208379533"
     # }
     def create_conditional(menu, group_id)
-      Wechat.perform_request 'post'
+      perform_request 'post'
     end
 
     ##
@@ -74,7 +76,7 @@ module Wechat
     # @return Json
     #
     def delete_conditional(menu_id)
-      Wechat.perform_request 'post', 'menu/delconditional', :json => {:menuid => menu_id}
+      perform_request 'post', 'menu/delconditional', :json => {:menuid => menu_id}
     end
 
     ##
@@ -93,7 +95,7 @@ module Wechat
     #   ]
     # }
     def test_conditional(open_id)
-      Wechat.perform_request 'post', 'menu/trymatch', :json => {:user_id => open_id}
+      perform_request 'post', 'menu/trymatch', :json => {:user_id => open_id}
     end
   end
 end
