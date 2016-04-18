@@ -1,5 +1,4 @@
 module Wechat
-
   class Error < StandardError
     attr_reader :errcode
 

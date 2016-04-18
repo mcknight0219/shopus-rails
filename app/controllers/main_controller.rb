@@ -1,10 +1,10 @@
-require 'nokigiri'
+require 'nokogiri'
 require 'digest/sha1'
 
 class MainController < ApplicationController
 
   def index
-    first_time? and render text: check_signature_and_return, content_type: 'text/plain'  
+    first_time? and render text: check_signature_and_return, content_type: 'text/plain'
   end
 
   def create

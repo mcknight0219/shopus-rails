@@ -1,6 +1,14 @@
-module Wechat
+require 'group'
+require 'menu'
+require 'error'
+require 'asset'
 
+module Wechat
   BASE_URI = "https://api.weixin.qq.com/cgi-bin".freeze
+
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
 
   module ClassMethods
     def token
@@ -9,7 +17,7 @@ module Wechat
         params[:grant_type] = 'client_credential'
         params[:appid]  = Rails.application.secrets.wechat_app_id
         params[:secret] = Rails.application.secrets.wechat_app_secret
-        error_or_body HTTP.get("#{BASE_URI}/token", :params => params).parse['access_token']
+        (error_or_body HTTP.get("#{BASE_URI}/token", :params => params).parse)['access_token']
       end
     end
 
@@ -27,8 +35,8 @@ module Wechat
       return body if ! body.key?('errcode') || body[:errcode] == 0
       raise Error.from_response body
     end
-
   end
+
   module Api
     include Wechat::Group
     include Wechat::Asset
