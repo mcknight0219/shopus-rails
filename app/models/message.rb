@@ -1,7 +1,6 @@
 # Representing the messages we receive from Weixin.
 # There are two kinds: event and user sent
 class Message
-  
   def initialize(props)
     props.each { |k,v| instance_variable_set("@#{k}", v) }
     class <<self

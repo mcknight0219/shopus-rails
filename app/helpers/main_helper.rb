@@ -1,7 +1,7 @@
 module MainHelper
 
   def dispatch_message(msg)
-    yield Strategy.Subscribe.ingest msg if msg.subscribe_event?
+    yield Strategy::Subscribe.new.ingest msg if msg.subscribe_event?
   end
 
   def extract_hash_from_xml(doc)

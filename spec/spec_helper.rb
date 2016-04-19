@@ -92,3 +92,4 @@ RSpec.configure do |config|
 end
 
 require 'webmock/rspec'
+require 'support/factory_girl'

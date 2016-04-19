@@ -35,6 +35,4 @@ RSpec.describe Wechat::Group do
       expect(body[:groups].first[:name]).to eq '未分组'
       expect(body[:groups].last[:count]).to eq 0
   end
-
-  it ""
 end

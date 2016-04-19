@@ -16,5 +16,12 @@ RSpec.describe Wechat::Asset do
     Rails.cache.delete 'wechat_access_token'
   end
 
+  it 'count the number of news assets' do
+    stub_request(:get, Wechat::Api::BASE_URI + '/material/get_materialcount?access_token=token').
+      to_return(:body => {:news_count => 1}.to_json,
+      :status => 200, :headers => {'Content-Type' => 'application/json'})
+
+    expect(dummy.new.count(:news)[:news_count]).to eq 1
+  end
 
 end

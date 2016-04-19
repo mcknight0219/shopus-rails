@@ -14,8 +14,8 @@ module Wechat
     # }
     def count(type=nil)
         counts = perform_request 'get', 'material/get_materialcount'
-        return counts if type.nil? or ! %W(voice video image news).include? type
-        return counts.reject {|k, v| k != type}
+        return counts if type.nil?
+        return counts.reject {|k, v| k != "#{type.to_s}_count".to_sym}
     end
 
     ##
