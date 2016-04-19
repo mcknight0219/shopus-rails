@@ -1,5 +1,6 @@
 module Strategy
   module Base
+
     ACCOUNT = Rails.application.secrets.wechat_account
 
     def respond_with_text(to, text)

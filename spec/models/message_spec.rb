@@ -14,5 +14,6 @@ RSpec.describe Message, type: :model do
     expect(msg.event?).to be_truthy
     expect(msg.scan_subscribe_event?).to be_truthy
     expect(msg.event_key).to eq 'random key'
+    expect(msg.event).to eq 'subscribe'
   end
 end

@@ -1,4 +1,3 @@
-require 'error'
 
 module Wechat
   module Api
@@ -19,7 +18,6 @@ module Wechat
       path.start_with?('/') or (path = '/' + path)
       args[:params] = {} unless args.key?(:params)
       args[:params][:access_token] = token
-
       error_or_body (HTTP.request verb, BASE_URI + path, args).parse
     end
 

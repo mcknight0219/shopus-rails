@@ -2,8 +2,6 @@ require "rails_helper"
 require 'json'
 
 RSpec.describe Wechat::Asset do
-  let(:dummy) {Class.new {include Wechat::Asset}}
-
   # In this test, we will utilize cache so the access_token will
   # only be requeted once.
   before(:all) do
@@ -21,7 +19,7 @@ RSpec.describe Wechat::Asset do
       to_return(:body => {:news_count => 1}.to_json,
       :status => 200, :headers => {'Content-Type' => 'application/json'})
 
-    expect(dummy.new.count(:news)[:news_count]).to eq 1
+    expect(Wechat::Asset.count(:news)[:news_count]).to eq 1
   end
 
 end

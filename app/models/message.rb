@@ -15,7 +15,7 @@ class Message
   end
 
   def user_sent?
-    not self.event?
+    not event?
   end
 
   def view_event?

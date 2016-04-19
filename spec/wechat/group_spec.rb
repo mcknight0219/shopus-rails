@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe Wechat::Group do
-  let(:dummy) {Class.new {include Wechat::Group}}
   # In this test for group, we will utilize cache so the access_token will
   # only be requeted once.
   before(:all) do
@@ -20,7 +19,7 @@ RSpec.describe Wechat::Group do
       to_return(:body => {:group => {:id => 1, :name => 'test'}}.to_json,
       :status => 200, :headers => {'Content-Type' => 'application/json'})
 
-    body = dummy.new.create 'test'
+    body =Wechat::Group.create 'test'
     expect(body[:group][:id]).to eq 1
     expect(body[:group][:name]).to eq 'test'
   end
@@ -30,7 +29,7 @@ RSpec.describe Wechat::Group do
       to_return(:body => {:groups => [{:id => 0, :name => '未分组', :count => 12}, {:id => 1, :name => '黑名单', :count => 0}]}.to_json,
       :status => 200, :headers => {'Content-Type' => 'application/json'})
 
-      body = dummy.new.get
+      body = Wechat::Group.get
       expect(body[:groups].count).to eq 2
       expect(body[:groups].first[:name]).to eq '未分组'
       expect(body[:groups].last[:count]).to eq 0

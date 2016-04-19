@@ -2,9 +2,10 @@ require 'nokogiri'
 require 'digest/sha1'
 
 class MainController < ApplicationController
+  include MainHelper
 
   def index
-    first_time? and render text: check_signature_and_return, content_type: 'text/plain'
+    first_time? && render(text: check_signature_and_return, content_type: 'text/plain')
   end
 
   def create
@@ -21,13 +22,17 @@ class MainController < ApplicationController
 
   private
 
-    def check_signature_and_return
-      params[:signature] == Digest::SHA1.hexdigest([Rails.application.secrets.wechat_token, params[:timestamp], params[:nonce]].sort!.join) ? params[:echostr] : ''
-    end
+  def dispatch_message(m)
+    yield Strategy::Subscribe.new.ingest(m) if m.subscribe_event?
+  end
 
-    # First time Weixin will send a request to verify. So check
-    # all required fields exist
-    def first_time?
-      (['signature', 'nonce', 'echostr', 'timestamp'].select { |i| !params.key? i}).empty?
-    end
+  def check_signature_and_return
+    params[:signature] == Digest::SHA1.hexdigest([Rails.application.secrets.wechat_token, params[:timestamp], params[:nonce]].sort!.join) ? params[:echostr] : ''
+  end
+
+  # First time Weixin will send a request to verify. So check
+  # all required fields exist
+  def first_time?
+    (%w(signature nonce echostr timestamp).select { |i| !params.key? i }).empty?
+  end
 end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'main/index'
-  post 'main/dispatch'
+  root 'main#index'
+  resources :main
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

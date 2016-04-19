@@ -21,6 +21,6 @@ RSpec.describe Wechat::Menu do
       to_return(:body => {:menu => {:button => [{:type => 'click'}]}, :conditionalmenu => {:button => [{:type => 'click'}]}}.to_json,
       :status => 200, :headers => {'Content-Type' => 'application/json'})
 
-    expect(dummy.new.has_conditional?).to be_truthy
+    expect(Wechat::Menu.has_conditional?).to be_truthy
   end
 end
