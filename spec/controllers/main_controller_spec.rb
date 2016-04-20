@@ -50,14 +50,20 @@ RSpec.describe MainController, type: :controller do
   describe "POST #index" do
     it "receive subscribe message and subscribe user" do
       post :create, build(:subscribe_event).to_xml
-      #expect(response).to have_http_status(:success)
-      #expect(response.content_type).to eq 'text/xml'
+      expect(response).to have_http_status(:success)
+      expect(response.content_type).to eq 'application/xml'
+      return_message = Nokogiri::Slop(response.body).root
+      expect(return_message.MsgType.content).to eq 'text'
+      expect(return_message.Content.content).to eq "Welcome to shopus ! Click :Help in menu to know more."
     end
 
-    # it "receive unsubscribe message and unsubscribe user" do
-    #   post :index, build(:unsubscribe_event).to_xml
-    #   expect(response).to have_http_status(:success)
-    #   expect(response.content_type).to eq 'text/plain'
-    # end
+    it "receive unsubscribe message and unsubscribe user" do
+      create(:a_subscriber)
+
+      post :create, build(:unsubscribe_event).to_xml
+      expect(response).to have_http_status(:success)
+      expect(response.content_type).to eq 'application/xml'
+      expect(response.body).to eq 'success'
+    end
   end
 end

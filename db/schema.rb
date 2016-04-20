@@ -14,11 +14,10 @@
 ActiveRecord::Schema.define(version: 20160414024025) do
 
   create_table "subscribers", force: :cascade do |t|
-    t.string   "weixin"
-    t.boolean  "active"
+    t.string   "weixin",     limit: 255
     t.boolean  "is_seller"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
 end

@@ -10,20 +10,15 @@ class MainController < ApplicationController
 
   def create
     m = Message.new(extract_hash_from_xml (Nokogiri::Slop request.body.read).xml)
-    dispatch_message m do |r|
-      # Response could either be a xml string or a simple 'success'
-      if r =~ /success/
-        render text: r, content_type: 'text/plain'
-      else
-        render xml: r
-      end
+    dispatch(m) do |result|
+      render text: result, content_type: 'application/xml'
     end
   end
 
   private
 
-  def dispatch_message(m)
-    yield Strategy::Subscribe.new.ingest(m) if m.subscribe_event?
+  def dispatch(message)
+    yield AccountStrategy.new(message).consume if message.account_event?
   end
 
   def check_signature_and_return

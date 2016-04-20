@@ -3,11 +3,9 @@ class Subscriber < ActiveRecord::Base
   before_save :set_default_value
 
   scope :seller, -> { where(:is_seller => true) }
-  scope :active, -> { where(:active => true) }
 
-  private
-    def set_default_value
-      self.is_seller ||= false
-      self.active ||= true
-    end
+  def set_default_value
+    is_seller ||= false
+    true
+  end
 end
