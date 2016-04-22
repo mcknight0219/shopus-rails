@@ -1,10 +1,8 @@
 class GoodsController < ApplicationController
-  include SnsapiBase
-
-  before_action :snsapi_base_auth
+  include Identity
+  before_action :userable_on_grant
 
   def index
-
   end
 
   ##
@@ -15,7 +13,9 @@ class GoodsController < ApplicationController
     render :new
   end
 
+  # Form is submitted asynchronously
   def create
+    Product.create(params[:product])
   end
 
   def show
@@ -26,4 +26,9 @@ class GoodsController < ApplicationController
 
   def detroy
   end
+
+  private
+    def userable_on_grant
+      render "unauthorized" unless params.key?(:code)
+    end
 end
