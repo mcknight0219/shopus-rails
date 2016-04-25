@@ -97,6 +97,9 @@ GEM
     mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    money (6.7.0)
+      i18n (>= 0.6.4, <= 0.7.0)
+      sixarm_ruby_unaccent (>= 1.1.1, < 2)
     multi_json (1.11.2)
     mysql2 (0.4.4)
     net-scp (1.2.1)
@@ -162,6 +165,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sixarm_ruby_unaccent (1.1.1)
     spring (1.7.1)
     sprockets (3.6.0)
       concurrent-ruby (~> 1.0)
@@ -206,6 +210,7 @@ DEPENDENCIES
   http
   jbuilder (~> 2.0)
   jquery-rails
+  money
   mysql2
   rails (= 4.2.6)
   rspec-rails (~> 3.0)
