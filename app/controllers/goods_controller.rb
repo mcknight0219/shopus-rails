@@ -1,6 +1,6 @@
 class GoodsController < ApplicationController
   include Identity
-  before_action :userable_on_grant
+  #before_action :userable_on_grant
 
   def index
   end
@@ -24,7 +24,7 @@ class GoodsController < ApplicationController
   def update
   end
 
-  def detroy
+  def destroy
   end
 
   private

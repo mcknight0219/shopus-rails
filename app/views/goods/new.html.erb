@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="cell">
+      <div class="profile_banner">
+        <div class="head_image">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Avatar_girl_face.png" alt="" />
+        </div>
+        <div class="head_text">
+          <h4>
+            <span style="color: black;">郭强</span>，请上传你的第一个商品吧
+          </h4>
+        </div>
+      </div>
+      <div class="cell">
+        <div class="weui_cells weui_cells_form">
+          <%= form_tag({controller: "goods", action: "create"}, method: "post") do %>
+            <div class="weui_cell">
+              <div class="weui_cell_hd">
+                <%= label_tag :name, '名称', :class => 'weui_label' %>
+              </div>
+              <div class="weui_cell_bd weui_cell_primary">
+                <%= text_field_tag :name, nil, :class => 'weui_input', :placeholder => '请输入商品名称' %>
+              </div>
+            </div>
+
+            <div class="weui_cell">
+              <div class="weui_cell_hd">
+                <%= label_tag :brand, '品牌', :class => 'weui_label' %>
+              </div>
+              <div class="weui_cell_bd weui_cell_primary">
+                <%= text_field_tag :brand, nil, :class => 'weui_input', :placeholder => '请输入品牌名称' %>
+              </div>
+            </div>
+
+            <div class="weui_cell weui_cell_select weui_select_before">
+              <div class="weui_cell_hd">
+                <%= select_tag(:currency, options_for_select([['CAD', 1], ['USD', 2], ['CNY', 3]]), :class => 'weui_select') %>
+              </div>
+              <div class="weui_cell_bd weui_cell_primary">
+                <%= number_field_tag :price, nil, :in => 1..9999, :class => 'weui_input', :placeholder => '请输入商品价格' %>
+              </div>
+            </div>
+
+            <div class="weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui_uploader">
+                  <div class="weui_uploader_hd weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">上传图片</div>
+                    <div class="weui_cell_ft">0/6</div>
+                  </div>
+                  <div class="weui_uploader_files">
+                    <ul class="weui_uploader_files">
+                      <li class="weui_uploader_file weui_uploader_status" style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)">
+                        <div class="weui_uploader_status_content">10%</div>
+                      </li>
+                    </ul>
+                    <div class="weui_uploader_input_wrp">
+                      <%= file_field(:product, :photos, :multiple => true, :class => "weui_uploader_input", :accept => "image/png, image/jpeg") %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">
+                <%= text_area_tag(:description, nil, :placeholder => "商品详情", :rows => "4", :class => "weui_textarea") %>
+                <div class="weui_textarea_counter">
+                  <span>0</span>
+                  /200
+                </div>
+              </div>
+            </div>
+
+            <div class="weui_btn_area" style="margin-top: 15px;">
+              <%= submit_tag("继续", :class => "weui_btn weui_btn_primary") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+  </div>
+
+  <%-# 表单错误提示对话框 -%>
+  <div class="weui_dialog_alert" style="display:none;">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+      <div class="weui_dialog_hd">
+        <strong class="weui_dialog_title">无法新建商品</strong>
+      </div>
+      <div class="weui_dialog_bd">
+        请检查所填内容是否正确或完整
+      </div>
+      <div class="weui_dialog_ft">
+        <a href="#" class="weui_btn_dialog primary">确定</a>
+      </div>
+    </div>
+  </div>
+</div>

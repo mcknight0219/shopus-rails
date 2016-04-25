@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="cell">
+    <div class="profile_banner">
+      <div class="head_image">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Avatar_girl_face.png" alt="" />
+      </div>
+      <div class="head_text">
+        <h4>
+          请选择或新增邮寄方式
+        </h4>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="weui_cells weui_cells_form">
+        <%= form_tag({controller: 'express', action: 'create'}, method: 'post') do %>
+        <div class="weui_cells_title">选择现有邮寄方式</div>
+        <div class="weui_cells weui_cells_radio">
+          <label class="weui_cell weui_check_label" for="">
+            <div class="weui_cell_bd weui_cell_primary">
+              <p>顺通</p>
+            </div>
+            <div class="weui_cell_ft">
+              <%= radio_button_tag(:express_method, nil, true, :class => "weui_check")%>
+              <span class="weui_icon_checked"></span>
+            </div>
+          </label>
+          <label class="weui_cell weui_check_label" for="">
+            <div class="weui_cell_bd weui_cell_primary">
+              <p>EMS</p>
+            </div>
+            <div class="weui_cell_ft">
+              <%= radio_button_tag(:express_method, nil, false, :class => "weui_check")%>
+              <span class="weui_icon_checked"></span>
+            </div>
+          </label>
+        </div>
+        <div class="weui_cells weui_cells_access">
+          <a href="express/new" class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+              <p>
+                Add
+              </p>
+            </div>
+            <div class="weui_cell_ft">
+            </div>
+          </a>
+        </div>
+
+
+        <div class="weui_cells_title">&nbsp;</div>
+        <div class="weui_cells weui_cells_access">
+          <a href="express/new" class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+              <p>
+                编辑现有邮寄方式
+              </p>
+            </div>
+            <div class="weui_cell_ft">
+
+            </div>
+          </a>
+        </div>
+
+        <div class="weui_cells_title">&nbsp;</div>
+        <div class="weui_cell weui_cell_switch">
+          <div class="weui_cell_hd weui_cell_primary">立即上架</div>
+          <div class="weui_cell_ft">
+            <%= check_box_tag(:publish, nil, true, :class => "weui_switch") %>
+          </div>
+        </div>
+
+        <div class="weui_btn_area" style="margin-top: 15px;">
+          <%= submit_tag("发布", :class => "weui_btn weui_btn_primary") %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
