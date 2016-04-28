@@ -1,0 +1,2 @@
+module PhotoControllerHelper
+end

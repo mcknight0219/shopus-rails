@@ -19,4 +19,8 @@ RSpec.describe Good, type: :model do
     expect(user.goods.length).to eq 1
     expect(g.subscriber).to eq user
   end
+
+  it "delete a subscriber also destroy all his goods" do
+    
+  end
 end

@@ -79,18 +79,39 @@
   </div>
 
   <%-# 表单错误提示对话框 -%>
-  <div class="weui_dialog_alert" style="display:none;">
-    <div class="weui_mask"></div>
-    <div class="weui_dialog">
-      <div class="weui_dialog_hd">
-        <strong class="weui_dialog_title">无法新建商品</strong>
-      </div>
-      <div class="weui_dialog_bd">
-        请检查所填内容是否正确或完整
-      </div>
-      <div class="weui_dialog_ft">
-        <a href="#" class="weui_btn_dialog primary">确定</a>
+  <script type="text/template" id="bad_submission_dialog">
+    <div class="weui_dialog_alert" style="display:none;">
+      <div class="weui_mask"></div>
+      <div class="weui_dialog">
+        <div class="weui_dialog_hd">
+          <strong class="weui_dialog_title">无法新建商品</strong>
+        </div>
+        <div class="weui_dialog_bd">
+          请检查所填内容是否正确或完整
+        </div>
+        <div class="weui_dialog_ft">
+          <a href="#" class="weui_btn_dialog primary">确定</a>
+        </div>
       </div>
     </div>
-  </div>
+  </script>
+
+  <%-# 提示用户删除上传照片对话框 -%>
+  <script type="text/template" id="image_uploader_dialog">
+    <div class="weui_dialog_alert">
+    	<div class="weui_mask"></div>
+			<div class="weui_dialog">
+				<div class="weui_dialog_hd">
+					<strong class="weui_dialog_title">删除上传照片</strong>
+				</div>
+				<div class="weui_dialog_bd">
+					删除后您可以重新上传新的照片
+				</div>
+				<div class="weui_dialog_ft">
+					<a href="" class="weui_btn_dialog default">取消</a>
+					<a href="" class="weui_btn_dialog primary">确定</a>
+				</div>
+			</div>
+	</div>
+  </script>
 </div>
