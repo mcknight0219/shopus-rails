@@ -1,37 +1,19 @@
 class ImageCell extends Backbone.Model
   STATES: ['progress', 'failure', 'success']
-
-  initialize: ->
-    @state = 'progress'
-    # nothing uploaded yet
-    @percentage = 0
+  defaults:
+    state: 'progress'
+    percentage: 0
 
   inProgress: ->
-    @state is 'progress'
+    @get('state') == 'progress'
 
   inFailure: ->
-    @state is 'failure'
+    @get('state') == 'failure'
 
 class ImageCells extends Backbone.Collection
 
   model: ImageCell
 
-
-class DialogView extends Backbone.View
-  template: _.template($('#image_uploader_dialog').html())
-
-  events:
-    "click .weui_btn_dialog.default": "hide",
-    "click .weui_btn_dialog.primary": "confirm"
-
-  initialize: (@parent) ->
-    @hide()
-
-  hide: ->
-    $el.hide()
-
-  confirm: ->
-    @hide()
 
 class ImageCellView extends Backbone.View
   tagName: "li"
@@ -40,14 +22,14 @@ class ImageCellView extends Backbone.View
 
   className: "weui_uploader_file weui_uploader_status"
 
-  events:
-    "click": "showDialog"
-
   initialize: ->
     @model.bind('change:state', @render)
 
   setBg: (src) =>
     @$el.attr('style', "background-image:url(#{src})")
+
+  remove: ->
+    @$el.remove()
 
   render: =>
     content = switch
@@ -55,43 +37,59 @@ class ImageCellView extends Backbone.View
       when @model.inFailure()  then "<i class=weui_icon_warn></i>"
       else ""
 
-    @$el.html(@template({status: '12'}))
-    this
+    @$el.html(@template({status: content}))
+    @
+
 
 class ImageCellsView extends Backbone.View
   el: 'div .weui_uploader_files'
 
   events:
-    "change input[type=\"file\"]":  "addFile"
+    "click input[type=\"file\"]" :  "resetFile"
+    "change input[type=\"file\"]":  "addFile",
+    "click li" :                    "prompt"
+
+  dlgTpl: _.template( $('').html() )
 
   initialize: ->
-    @images   = new ImageCells
     @subviews = []
-    @images.bind('add',   @createView)
-    @images.bind('remove',@removeView)
+    images.bind('add',   @createView)
+    images.bind('remove',@removeView)
+
+  # Trick the browser to let us upload same file again
+  resetFile: (e) ->
+    $(e.target).val('')
 
   addFile: (e) ->
     file = _.last e.target.files
-    @images.add( {file: file} )
+    images.add( {file: file} )
 
   createView: (e) =>
-    @subviews.push(new ImageCellView( {model: e} ))
+    cellView = new ImageCellView( {model: e} )
+    @subviews.push cellView
     reader = new FileReader
     reader.onload = (e) =>
       (_.last @subviews).setBg e.target.result
     reader.readAsDataURL e.get('file')
-    # Get the wheel rolling
-    e.set('state', 'failure')
-    @render()
+
+    @$('ul').append(cellView.render().el)
 
   removeView: (e) =>
-    _.reject @subviews, (v) => e is v.model
-    @render()
-
-  render: =>
     _.map @subviews, (v) =>
-      @$('ul').append(v.render().el)
-    this
+      v.remove() if e is v.model
 
+  deleteFile: (e) =>
+    m = images.at $(e.target).index()
+    images.remove m
+
+  prompt: (e) =>
+    m = images.at $(e.target).index()
+    # Materialize the dialog
+    @$el.append(@dlgTpl())
+    @delegateEvents
+
+
+# Set it top-level so we can access it in
+images   = new ImageCells
 window._commentView = new CommentView
 window._uploadView  = new ImageCellsView
