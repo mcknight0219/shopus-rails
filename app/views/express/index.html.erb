@@ -20,7 +20,7 @@
               <p>顺通</p>
             </div>
             <div class="weui_cell_ft">
-              <%= radio_button_tag(:express_method, nil, true, :class => "weui_check")%>
+              <%= radio_button_tag(:express_method, '顺通', true, :class => "weui_check")%>
               <span class="weui_icon_checked"></span>
             </div>
           </label>
@@ -29,13 +29,13 @@
               <p>EMS</p>
             </div>
             <div class="weui_cell_ft">
-              <%= radio_button_tag(:express_method, nil, false, :class => "weui_check")%>
+              <%= radio_button_tag(:express_method, 'EMS', false, :class => "weui_check")%>
               <span class="weui_icon_checked"></span>
             </div>
           </label>
         </div>
         <div class="weui_cells weui_cells_access">
-          <a href="express/new" class="weui_cell">
+          <a href="/express/new" class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
               <p>
                 Add
@@ -49,7 +49,7 @@
 
         <div class="weui_cells_title">&nbsp;</div>
         <div class="weui_cells weui_cells_access">
-          <a href="express/new" class="weui_cell">
+          <a href="/express/new" class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
               <p>
                 编辑现有邮寄方式

@@ -4,6 +4,11 @@ class ImageCell extends Backbone.Model
     state: 'progress'
     percentage: 0
 
+  initialize: ->
+    # Begin uploading upon creating
+    $.ajax
+
+
   inProgress: ->
     @get('state') == 'progress'
 
@@ -45,16 +50,20 @@ class ImageCellsView extends Backbone.View
   el: 'div .weui_uploader_files'
 
   events:
-    "click input[type=\"file\"]" :  "resetFile"
-    "change input[type=\"file\"]":  "addFile",
-    "click li" :                    "prompt"
+    "click input[type=\"file\"]" :    "resetFile"
+    "change input[type=\"file\"]":    "addFile",
+    "click li" : "prompt",
+    "click .weui_btn_dialog.primary": "confirmDelete",
+    "click .weui_btn_dialog.default": "dismissDialog"
 
-  dlgTpl: _.template( $('').html() )
+  dlgTpl: _.template( $('#delete_image_dialog').html() )
 
   initialize: ->
+    console.log 'Loaded'
     @subviews = []
-    images.bind('add',   @createView)
-    images.bind('remove',@removeView)
+    @images    = new ImageCells
+    @images.bind('add',   @createView)
+    @images.bind('remove',@removeView)
 
   # Trick the browser to let us upload same file again
   resetFile: (e) ->
@@ -62,7 +71,8 @@ class ImageCellsView extends Backbone.View
 
   addFile: (e) ->
     file = _.last e.target.files
-    images.add( {file: file} )
+    @images.add( {file: file} )
+    @changeCount()
 
   createView: (e) =>
     cellView = new ImageCellView( {model: e} )
@@ -78,18 +88,24 @@ class ImageCellsView extends Backbone.View
     _.map @subviews, (v) =>
       v.remove() if e is v.model
 
-  deleteFile: (e) =>
-    m = images.at $(e.target).index()
-    images.remove m
-
   prompt: (e) =>
-    m = images.at $(e.target).index()
+    e.stopPropagation()
+    @toDelete = @images.at $(e.target).index()
     # Materialize the dialog
     @$el.append(@dlgTpl())
-    @delegateEvents
 
+  dismissDialog: =>
+    @$('.weui_dialog_alert').remove()
 
-# Set it top-level so we can access it in
-images   = new ImageCells
+  confirmDelete: =>
+    if @toDelete?
+      @images.remove @toDelete
+      @changeCount()
+    @dismissDialog()
+
+  changeCount: ->
+    count = @images.length
+    $('#upload_counter').html("#{count}/6")
+
 window._commentView = new CommentView
 window._uploadView  = new ImageCellsView
