@@ -8,7 +8,6 @@ class ImageCell extends Backbone.Model
     # Begin uploading upon creating
     $.ajax
 
-
   inProgress: ->
     @get('state') == 'progress'
 
