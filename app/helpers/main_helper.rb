@@ -1,5 +1,5 @@
 module MainHelper
-  
+
   def extract_hash_from_xml(doc)
     attrs = {}
     # common parts
@@ -29,5 +29,10 @@ module MainHelper
       end
     end
     attrs
+  end
+
+  def current_subscriber
+    return nil unless session[:openid]
+    Subscriber.find_by(:weixin => session[:openid])
   end
 end

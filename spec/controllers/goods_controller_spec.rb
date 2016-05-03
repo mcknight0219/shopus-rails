@@ -18,11 +18,5 @@ RSpec.describe GoodsController, type: :controller do
       expect(assigns(:openid)).to eq('OPENID')
       expect(assigns(:access_token)).to eq('ACCESS_TOKEN')
     end
-
-    # The callback url doesn't have _code_ parameter
-    it "user denies our request" do
-      get :index
-      expect(response).to  render_template(:file => "#{Rails.root}/public/401.html")
-    end
   end
 end

@@ -1,6 +1,6 @@
 class GoodsController < ApplicationController
   include Identity
-  #before_action :userable_on_grant
+  before_action :userable_on_grant
 
   def index
   end
@@ -15,7 +15,6 @@ class GoodsController < ApplicationController
 
   # Form is submitted asynchronously
   def create
-    Product.create(params[:product])
   end
 
   def show
@@ -29,6 +28,7 @@ class GoodsController < ApplicationController
 
   private
     def userable_on_grant
-      render "unauthorized" unless params.key?(:code)
+      auth
+      render :text => "unauthorized" unless params.key?(:code)
     end
 end
