@@ -1,7 +1,7 @@
+# Simple proxy controller that delegates real work
+# to ExpressController
 class EditExpressController < ApplicationController
-  before_action :current_user
-
   def index
-     
+    @express = ExpressMethod.all       
   end
 end

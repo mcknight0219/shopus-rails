@@ -15,24 +15,18 @@
         <%= form_tag({controller: 'express', action: 'create'}, method: 'post') do %>
         <div class="weui_cells_title">选择邮寄方式</div>
         <div class="weui_cells weui_cells_radio">
-          <label class="weui_cell weui_check_label" for="express_method_shuntong">
-            <div class="weui_cell_bd weui_cell_primary">
-              <p>顺通</p>
-            </div>
-            <div class="weui_cell_ft">
-              <%= radio_button_tag(:express_method, 'shuntong', true, :class => "weui_check")%>
-              <span class="weui_icon_checked"></span>
-            </div>
-          </label>
-          <label class="weui_cell weui_check_label" for="express_method_ems">
-            <div class="weui_cell_bd weui_cell_primary">
-              <p>EMS</p>
-            </div>
-            <div class="weui_cell_ft">
-              <%= radio_button_tag(:express_method, 'ems', false, :class => "weui_check")%>
-              <span class="weui_icon_checked"></span>
-            </div>
-          </label>
+          <% @express.each do |e| %>
+            <label class="weui_cell weui_check_label" for=<%= "express_method_#{e.id}" %>>
+              <div class="weui_cell_bd weui_cell_primary">
+                <p><%= e.company %></p>
+              </div>
+              <div class="weui_cell_ft">
+                <%= radio_button_tag(:express_method, e.id, true, :class => "weui_check")%>
+                <span class="weui_icon_checked"></span>
+              </div>
+            </label>
+          <% end %>
+          
           <label class="weui_cell weui_check_access">
             <a href="/express/new" class="weui_cell_bd weui_cell_primary">
               <p>添加...</p>
@@ -71,4 +65,30 @@
       </div>
     </div>
   </div>
+  
+  <script type="text/template" id="toast_template">
+    <div id="toast">
+      <div class="weui_mask_transparent"></div>
+      <div class="weui_toast">
+        <i class="weui_icon_toast"></i>
+        <p class="weui_toast_content">已添加</p>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" id="dialog_template">
+    <div class="weui_dialog_alert" id="dialog">
+      <div class="weui_mask"></div>
+      <div class="weui_dialog">
+        <div class="weui_dialog_hd">
+          <strong class="weui_dialog_title">新建失败</strong>  
+        </div>
+        <div class="weui_dialog_bd">无法创建新的邮寄方式，请稍后再试</div>
+        <div class="weui_dialog_ft">
+          <a class="weui_btn_dialog primary">确认</a>
+        </div>
+      </div>
+    </div> 
+  </script>
+
 </div>

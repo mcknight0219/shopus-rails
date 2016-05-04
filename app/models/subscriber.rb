@@ -7,6 +7,7 @@ class Subscriber < ActiveRecord::Base
 
   scope :seller, -> { where(:is_seller => true) }
 
+  private
   def set_default_value
     is_seller ||= false
     true

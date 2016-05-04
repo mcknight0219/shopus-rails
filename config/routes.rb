@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :express
   resources :edit_express
 
-  post 'photo/:id' => 'photo#create'
+  post 'photos' => 'photo#create'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

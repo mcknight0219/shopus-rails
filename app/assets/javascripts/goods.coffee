@@ -4,9 +4,26 @@ class ImageCell extends Backbone.Model
     state: 'progress'
     percentage: 0
 
-  initialize: ->
+  initialize: (@file) ->
     # Begin uploading upon creating
-    $.ajax
+    formData = new FormData
+    formData.append 'photo', @file
+    
+    $.ajax "/photo/#{@file.name}-#{Math.random().toString(36).substring(4)}",
+      type: 'POST'
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content') 
+      contentType: false
+      data: formData
+      xhr: =>
+        xhr = $.ajaxSettings.xhr()
+        xhr.upload?.addEventListener 'progress', (e) =>
+          @percent = (e.loaded / e.total) * 100
+        xhr
+      success: (xhr, status, error)=>
+        @set('state', 'success')
+      error: (xhr, status, error) =>
+        @set('state', 'failure')
 
   inProgress: ->
     @get('state') == 'progress'
@@ -58,7 +75,6 @@ class ImageCellsView extends Backbone.View
   dlgTpl: _.template( $('#delete_image_dialog').html() )
 
   initialize: ->
-    console.log 'Loaded'
     @subviews = []
     @images    = new ImageCells
     @images.bind('add',   @createView)

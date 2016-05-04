@@ -1,9 +1,9 @@
 class ExpressController < ApplicationController
   include MainHelper
-  #before_action :assert_user_presence
+  before_action :assert_user_presence
 
   def index
-    @methods = ExpressMethod.find_by(:subscriber => current_subscriber)
+    @express = ExpressMethod.where(:subscriber => current_subscriber)
   end
 
   def new
@@ -27,6 +27,6 @@ class ExpressController < ApplicationController
 
   private
     def assert_user_presence
-      render "unauthorized" unless session[:openid]
+      render template: 'goods/unauthorized' unless current_subscriber    
     end
 end
