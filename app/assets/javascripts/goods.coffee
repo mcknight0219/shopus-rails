@@ -5,14 +5,24 @@ class ImageCell extends Backbone.Model
     percentage: 0
 
   initialize: (@file) ->
-    # Begin uploading upon creating
+    @id = Date.now()
+    @upload()
+
+  # send DELETE request to server. On success remove the view
+  delete: (view) ->
+    $.ajax "/photo/#{@id}",
+      type: 'DELETE',
+      success: (xhr, status, error) =>
+        view.remove()
+
+  upload: ->
     formData = new FormData
     formData.append('photo', @file.file)
    
-    $.ajax "/photo/#{@file.file.name}-#{Math.random().toString(36).substring(4)}",
+    $.ajax "/photo/#{@id}",
       type: 'POST'
       beforeSend: (xhr) =>
-        xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content') 
+        xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')
       contentType: false
       data: formData
       processData: false
@@ -25,7 +35,7 @@ class ImageCell extends Backbone.Model
         @set('state', 'success')
       error: (xhr, status, error) =>
         @set('state', 'failure')
-
+  
   inProgress: ->
     @get('state') == 'progress'
 
@@ -50,9 +60,6 @@ class ImageCellView extends Backbone.View
 
   setBg: (src) =>
     @$el.attr('style', "background-image:url(#{src})")
-
-  remove: ->
-    @$el.remove()
 
   render: =>
     content = switch
@@ -107,7 +114,7 @@ class ImageCellsView extends Backbone.View
 
   removeView: (e) =>
     _.map @subviews, (v) =>
-      v.remove() if e is v.model
+      v.model.delete v if e is v.model
 
   prompt: (e) =>
     e.stopPropagation()
