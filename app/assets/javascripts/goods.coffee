@@ -7,18 +7,19 @@ class ImageCell extends Backbone.Model
   initialize: (@file) ->
     # Begin uploading upon creating
     formData = new FormData
-    formData.append 'photo', @file
-    
-    $.ajax "/photo/#{@file.name}-#{Math.random().toString(36).substring(4)}",
+    formData.append('photo', @file.file)
+   
+    $.ajax "/photo/#{@file.file.name}-#{Math.random().toString(36).substring(4)}",
       type: 'POST'
       beforeSend: (xhr) =>
         xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content') 
       contentType: false
       data: formData
+      processData: false
       xhr: =>
         xhr = $.ajaxSettings.xhr()
         xhr.upload?.addEventListener 'progress', (e) =>
-          @percent = (e.loaded / e.total) * 100
+          @set('percentage', Math.ceil (e.loaded / e.total) * 100)
         xhr
       success: (xhr, status, error)=>
         @set('state', 'success')
@@ -45,6 +46,7 @@ class ImageCellView extends Backbone.View
 
   initialize: ->
     @model.bind('change:state', @render)
+    @model.bind('change:percentage', @render)
 
   setBg: (src) =>
     @$el.attr('style', "background-image:url(#{src})")
@@ -58,7 +60,11 @@ class ImageCellView extends Backbone.View
       when @model.inFailure()  then "<i class=weui_icon_warn></i>"
       else ""
 
-    @$el.html(@template({status: content}))
+    if content.length
+      @$el.html(@template({status: content}))
+    else
+      @$el.html('')
+      @$el.removeClass 'weui_uploader_status'
     @
 
 
