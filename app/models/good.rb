@@ -4,7 +4,14 @@ class Good < ActiveRecord::Base
   CURRENCY_TYPES =  %w(CAD USD CNY).freeze
   validates :currency, inclusion: { in: CURRENCY_TYPES }
 
-  belongs_to :subscriber
+  validate do |g|
+    g.errors.add_to_base("Incorrect express method") unless g.subscriber == g.express_method.subscriber
+  end
+
+  belongs_to  :subscriber
+  belongs_to  :express_method
+
+  scope :invalid, -> { where(:express_method => nil) }
 
   def money
     Money.new(price * 100, currency)

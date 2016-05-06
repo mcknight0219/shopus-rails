@@ -6,7 +6,7 @@ class CreateGoods < ActiveRecord::Migration
       t.string :currency
       t.decimal :price
       t.text :description
-      t.references :subscriber, index: true, foreign_key: true
+      t.references :subscriber,     index: true, foreign_key: true
 
       t.timestamps null: false
     end

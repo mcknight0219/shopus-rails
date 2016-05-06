@@ -25,5 +25,8 @@ module ShopusRails
 
     config.eager_load_paths += %W( #{config.root}/lib )
     config.autoload_paths += %W( #{config.root}/lib #{config.root}/app/strategy )
+    config.generators do |g|
+      g.test_framework :rspec
+    end
   end
 end

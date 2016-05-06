@@ -23,6 +23,11 @@ class ExpressController < ApplicationController
   end
 
   def destroy
+    express = ExpressMethod.find params[:id]
+    unless express.can_delete?
+      render :json => {:status => 'bad', :errmsg => 'Cannot remove the express emthod.'}
+    else
+      render :json => {:status => 'ok'}
   end
 
   private
