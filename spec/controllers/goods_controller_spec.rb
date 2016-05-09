@@ -17,29 +17,49 @@ RSpec.describe GoodsController, type: :controller do
         :headers => {'Content-Type' => 'application/json'})
   end
 
-  
   context 'success' do
+    let(:params) { {:name => 'Name', :brand => 'Brand', :currency => 'CAD', :price => 100, :description => 'Alineofdescription'} }
+    
     describe "Oauth with wechat" do
       it 'Obtains openid and access_token after authorization' do
-        get :index, :code => 'CODE'
-        expect(response).to render_template(:index)
+        get :new, :code => 'CODE'
+        expect(response).to render_template(:new)
         expect(assigns(:openid)).to eq('OPENID')
         expect(assigns(:access_token)).to eq('ACCESS_TOKEN')
       end
     end
 
-    describe "Submitted a form for new product" do
+    describe "Submit a form for new product" do
       it 'Create a new product' do
-        post :create, :params => {:}
+        expect{ post :create, params }.to change {Good.count}.by 1
+        expect(session[:uploads].present?).to be_falsy
+      end
+
+      it 'Render the express#index page upon success' do
+        post :create, params
+        expect(response).to render_template 'express/index'
+      end
+
+      it 'Store file lists in session' do
+        post :create, params.merge(files: '1234_5678_abcd')
+        expect(session[:uploads]).to eq %w(1234 5678 abcd)
       end
     end
   end
 
   context 'failure' do
+    let(:bad_params) { {:name => 'Name', :brand => 'Brand', :currency => 1, :price => 100, :description => 'Alineofdescription'} }
     describe "Oauth with wechat" do
       it "User denied authorization" do
         get :index
         expect(response).to render_template :unauthorized
+      end
+    end
+
+    describe "Submit a form for new product" do
+      it 'Flash back error' do
+        expect(post :create, bad_params).to render_template(:new)
+        expect(flash[:error].present?).to be_truthy
       end
     end
   end
