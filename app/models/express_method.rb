@@ -5,7 +5,7 @@ class ExpressMethod < ActiveRecord::Base
 
   validates   :company, :presence => true
   belongs_to  :subscriber
-  has_many    :good
+  has_many    :goods
 
   UNITS = %w(kg lb a).freeze
   ESTIMATE = ['less than a week', 'two weeks', 'three weeks', 'a month', 'other'].freeze
@@ -23,11 +23,6 @@ class ExpressMethod < ActiveRecord::Base
     return rate if other_unit == unit
     return rate * 2.20462   if other_unit == 'lb' && unit == 'kg'
     return rate * 0.453592  if other_unit == 'kg' && unit == 'lb'
-  end
-
-  # Look for shipping company information in our database
-  def shipping_company_info
-
   end
 
   def can_delete?

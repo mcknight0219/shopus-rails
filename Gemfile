@@ -43,6 +43,7 @@ end
 group :test do
     gem 'webmock'
     gem 'rspec-rails', '~> 3.0'
+    gem 'rspec-json_expectations'
     gem 'factory_girl_rails', '~> 4.0'
 end
 
@@ -53,4 +54,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'capistrano'
+  gem 'guard'
+  gem 'guard-rspec', require: false
 end

@@ -94,3 +94,4 @@ end
 require 'webmock/rspec'
 require 'factory_girl_rails'
 require 'support/factory_girl'
+require 'rspec/json_expectations'

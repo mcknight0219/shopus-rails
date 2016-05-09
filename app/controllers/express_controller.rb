@@ -27,11 +27,9 @@ class ExpressController < ApplicationController
     unless express.can_delete?
       render :json => {:status => 'bad', :errmsg => 'Cannot remove the express emthod.'}
     else
+      express.delete      
       render :json => {:status => 'ok'}
+    end
   end
 
-  private
-    def assert_user_presence
-      render template: 'goods/unauthorized' unless current_subscriber    
-    end
 end
