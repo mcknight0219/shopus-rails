@@ -13,4 +13,8 @@ class Good < ActiveRecord::Base
   def money
     Money.new(price * 100, currency)
   end
+
+  def has_express_method?
+    self.express_method.nil?
+  end
 end

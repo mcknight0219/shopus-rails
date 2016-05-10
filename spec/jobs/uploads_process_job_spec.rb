@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UploadsProcessJob do
-  
   context 'success' do
     describe '#perform' do
       it 'Job is enqueued' do
@@ -10,11 +9,6 @@ RSpec.describe UploadsProcessJob do
           UploadsProcessJob.perform_later
         }.to have_enqueued_job(UploadsProcessJob)
       end
-
     end
-  end
-
-  context 'failure' do
-  
   end
 end
