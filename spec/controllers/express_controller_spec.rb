@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ExpressController, mode: :controller do
 
+  let!(:a_subscriber)     { create(:a_subscriber) }
+  let!(:a_express_method) { ExpressMethod.create!(company: 'company name', unit: 1, rate: 1.1, country: 'canada', duration: 1, description: 'description', subscriber: a_subscriber) } 
+  
   describe 'create a new shipping method' do
     it 'Post to create route' do
       user = create(:a_subscriber)
@@ -22,10 +25,9 @@ RSpec.describe ExpressController, mode: :controller do
     end
 
     context 'Success' do
-      let!(:a_subscriber)     { create(:a_subscriber) }
-      let!(:a_express_method) { ExpressMethod.create!(company: 'company name', unit: 1, rate: 1.1, country: 'canada', duration: 1, description: 'description', subscriber: a_subscriber) } 
 
       it 'Delete a shipping method' do
+        session[:openid] = a_subscriber.weixin
         expect { delete :destroy, :id => a_express_method.id }.to change {ExpressMethod.count}.by -1
         expect(response.body).to include_json(status: 'ok')
       end

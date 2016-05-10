@@ -43,6 +43,6 @@ class GoodsController < ApplicationController
     end
 
     def fire_upload_job
-      UploadsProcessJob.perform session[:uploads]
+      UploadsProcessJob.perform_later session[:uploads]
     end
 end
