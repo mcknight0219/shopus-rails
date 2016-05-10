@@ -12,7 +12,7 @@ class GoodsController < ApplicationController
   def create
     begin
       new_one = Good.create! params.permit(:name, :brand, :price, :currency, :description)
-      UploadsProcessJob.perform_later session[:uploaded_files]
+      UploadsProcessJob.perform_later session[:uploades]
       render 'express/index'
     rescue => e
       flash[:error] = 'Error creating product'

@@ -1,14 +1,15 @@
 class PhotoController< ApplicationController
-  
   def create 
-    puts params[:id]
-    render :json => {:status => 'ok'}       
+    pp = ProductPhoto.create :temp_path => params[:file].tempfile, :format => params[:file].content_type
+    session[:uploads] ||= []
+    session[:uploads] << pp.id
+    render :json => {:status => 'ok', :id => pp.id}       
   end
 
   def destroy
+    ProductPhoto.delete params[:id]
+    session[:uploads].delete_if { |id| params[:id].to_i == id }
+    session.delete :uploads if session[:uploads].empty?
     render :json => {:status => 'ok'}
   end
-
-  private
-
 end

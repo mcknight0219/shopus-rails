@@ -21,11 +21,34 @@ module Wechat
       end
 
       ##
+      # Get the material
+      # 
+      # @return Stream for images
+      def get(media_id)
+        perform_request 'post', 'material/get_material', :json => {:media_id => media_id} 
+      end
+
+      ##
       # Delete the material
       #
       # @return Hash
       def delete(media_id)
         perform_request 'post', 'material/del_material', :json => {:media_id => media_id}
+      end
+
+      ##
+      # Add materials of type: image
+      # 
+      # @return Hash
+      def add(type, path)
+        perform_request 'post', 'material/add_material', :form => {:media => HTTP::FormData::File.new(path), :typpe => type}
+      end
+
+      ##
+      # Add permanent asset. There are some limits on size of media file.
+      # e.g. max picture size is 2M
+      def add_article()
+
       end
 
       ##
@@ -45,18 +68,12 @@ module Wechat
       ##
       # Download a *TEMPORARY* asset.
       #
-    # @return Stream
+      # @return Stream
       def media_get(media_id)
         perform_request 'get', 'media/get', :params => {:media_id => media_id}
       end
 
-      ##
-      # Add permanent asset. There are some limits on size of media file.
-      # e.g. max picture size is 2M
-      def material_add_article()
-
-      end
-
+      
       ##
       # Check the content size and replace outbound image
       #
