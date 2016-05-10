@@ -6,6 +6,7 @@ class PhotoController< ApplicationController
   end
 
   def destroy
+    render :json => {:status => 'ok'}
   end
 
   private

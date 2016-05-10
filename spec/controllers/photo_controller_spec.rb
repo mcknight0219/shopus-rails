@@ -17,6 +17,7 @@ RSpec.describe PhotoController, mode: :controller do
 
   describe '#destroy' do
     it 'Delete a picture' do
+      delete :destroy, :id => "#{Time.new.to_i}_#{session[:openid]}"
     end
   end
 end

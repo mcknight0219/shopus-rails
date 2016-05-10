@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506225229) do
+ActiveRecord::Schema.define(version: 20160510062501) do
 
   create_table "express_methods", force: :cascade do |t|
     t.string   "company",       limit: 255
@@ -42,6 +42,18 @@ ActiveRecord::Schema.define(version: 20160506225229) do
   add_index "goods", ["express_method_id"], name: "index_goods_on_express_method_id", using: :btree
   add_index "goods", ["subscriber_id"], name: "index_goods_on_subscriber_id", using: :btree
 
+  create_table "product_photos", force: :cascade do |t|
+    t.string   "format",        limit: 255
+    t.string   "temp_path",     limit: 255
+    t.boolean  "stored_remote"
+    t.string   "media_id",      limit: 255
+    t.integer  "good_id",       limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "product_photos", ["good_id"], name: "index_product_photos_on_good_id", using: :btree
+
   create_table "subscribers", force: :cascade do |t|
     t.string   "weixin",     limit: 255
     t.boolean  "is_seller"
@@ -52,4 +64,5 @@ ActiveRecord::Schema.define(version: 20160506225229) do
   add_foreign_key "express_methods", "subscribers"
   add_foreign_key "goods", "express_methods"
   add_foreign_key "goods", "subscribers"
+  add_foreign_key "product_photos", "goods"
 end

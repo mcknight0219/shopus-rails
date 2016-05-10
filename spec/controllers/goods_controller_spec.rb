@@ -39,11 +39,6 @@ RSpec.describe GoodsController, type: :controller do
         post :create, params
         expect(response).to render_template 'express/index'
       end
-
-      it 'Store file lists in session' do
-        post :create, params.merge(files: '1234_5678_abcd')
-        expect(session[:uploads]).to eq %w(1234 5678 abcd)
-      end
     end
   end
 
