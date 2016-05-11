@@ -3,11 +3,10 @@ class ExpressController < ApplicationController
   before_action :assert_user_presence
 
   def index
-    @express = ExpressMethod.where(:subscriber => current_subscriber)
   end
 
   def new
-
+      
   end
 
   def create

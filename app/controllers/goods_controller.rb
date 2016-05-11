@@ -1,4 +1,5 @@
 class GoodsController < ApplicationController
+  include MainHelper
   include Identity
   
   before_action :assert_granted, only: [:index, :new]
@@ -11,10 +12,10 @@ class GoodsController < ApplicationController
   
   def create
     begin
-      post_process Good.create!(params.permit(:name, :brand, :price, :currency, :description))
-      render 'express/index'
+      post_process Good.create!(params.permit(:name, :brand, :price, :currency, :description).merge(subscriber: current_subscriber))
+      redirect_to :controller => :express_select, :action => :index
     rescue => e
-      flash[:error] = 'Error creating product'
+      flash[:error] = '无法创建新的商品，请稍后重试'
       render :new
     end
   end

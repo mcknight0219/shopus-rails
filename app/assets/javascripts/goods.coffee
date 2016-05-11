@@ -17,9 +17,9 @@ class ImageCell extends Backbone.Model
 
   upload: ->
     formData = new FormData
-    formData.append('photo', @file.file)
+    formData.append('file', @file.file)
    
-    $.ajax "/photo/#{@id}",
+    $.ajax "/photo",
       type: 'POST'
       beforeSend: (xhr) =>
         xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')
@@ -101,6 +101,8 @@ class ImageCellsView extends Backbone.View
     file = _.last e.target.files
     @images.add( {file: file} )
     @changeCount()
+    # We nullify the file input so nothing is submitted with form
+    $(e.target).val('')
 
   createView: (e) =>
     cellView = new ImageCellView( {model: e} )
@@ -137,3 +139,4 @@ class ImageCellsView extends Backbone.View
 
 window._commentView = new CommentView
 window._uploadView  = new ImageCellsView
+

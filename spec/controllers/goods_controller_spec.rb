@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GoodsController, type: :controller do
   let(:qs) { "appid=#{Rails.application.secrets.wechat_app_id}&secret=#{Rails.application.secrets.wechat_app_secret}&code=CODE&grant_type=authorization_code" }
+  let(:user) { create(:a_subscriber) }
 
   # Make oauth procedure before each action
   before(:each) do
@@ -10,7 +11,7 @@ RSpec.describe GoodsController, type: :controller do
         :body => {:access_token => 'ACCESS_TOKEN',
                           :expires_in => 7200,
                           :refresh_token => "REFRESH_TOKEN",
-                          :openid => "OPENID",
+                          :openid => user.weixin,
                           :scope => "snsapi_base"
         }.to_json,
         :status => 200,
@@ -24,20 +25,21 @@ RSpec.describe GoodsController, type: :controller do
       it 'Obtains openid and access_token after authorization' do
         get :new, :code => 'CODE'
         expect(response).to render_template(:new)
-        expect(assigns(:openid)).to eq('OPENID')
+        expect(assigns(:openid)).to eq(user.weixin)
         expect(assigns(:access_token)).to eq('ACCESS_TOKEN')
       end
     end
 
     describe "Submit a form for new product" do
       it 'Create a new product' do
+        session[:openid] = user.weixin
         expect{ post :create, params }.to change {Good.count}.by 1
         expect(session[:uploads].present?).to be_falsy
       end
 
       it 'Render the express#index page upon success' do
         post :create, params
-        expect(response).to render_template 'express/index'
+        expect(response).to redirect_to '/express_select'
       end
     end
   end

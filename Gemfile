@@ -45,6 +45,7 @@ group :test do
     gem 'rspec-rails', '~> 3.0'
     gem 'rspec-json_expectations'
     gem 'factory_girl_rails', '~> 4.0'
+    gem 'capybara'
 end
 
 group :development do

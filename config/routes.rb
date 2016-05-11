@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :goods
   resources :express
   resources :edit_express
+  resources :express_select, :only => [:new, :create]
 
   post    'photo' => 'photo#create'
   delete  'photo/:id' => 'photo#destroy'
