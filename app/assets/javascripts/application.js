@@ -18,3 +18,4 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require comment
+//= require jweixin

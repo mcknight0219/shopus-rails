@@ -17,4 +17,14 @@ FactoryGirl.define do
     updated_at { Time.now.to_s }
   end
 
+  factory :a_shipping_method, class: ExpressMethod do
+    company 'shuntong'
+    unit    1
+    rate    3.33
+    country 'Canada'
+    duration 1
+    description ''
+    association :subscriber, factory: :a_subscriber 
+    created_at { Time.now.to_s }
+  end
 end

@@ -4,6 +4,7 @@ class ExpressMethod < ActiveRecord::Base
   validates_numericality_of :rate,    :greater_than_or_equal_to => 0
 
   validates   :company, :presence => true
+  validates   :country, :presence => true
   belongs_to  :subscriber
   has_many    :goods
 

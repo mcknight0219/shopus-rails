@@ -13,7 +13,7 @@ class GoodsController < ApplicationController
   def create
     begin
       post_process Good.create!(params.permit(:name, :brand, :price, :currency, :description).merge(subscriber: current_subscriber))
-      redirect_to :controller => :express_select, :action => :index
+      redirect_to :controller => :express_select, :action => :new
     rescue => e
       flash[:error] = '无法创建新的商品，请稍后重试'
       render :new
@@ -31,6 +31,7 @@ class GoodsController < ApplicationController
 
   private
     def assert_granted
+      return unless current_subscriber.nil?
       return render template: :unauthorized unless params.key? :code
       auth_with_wechat
     end

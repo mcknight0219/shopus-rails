@@ -6,5 +6,6 @@ class ExpressSelectController < ApplicationController
   end
 
   def create
+    render :success
   end
 end

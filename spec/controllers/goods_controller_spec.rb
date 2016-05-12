@@ -29,6 +29,10 @@ RSpec.describe GoodsController, type: :controller do
         expect(assigns(:access_token)).to eq('ACCESS_TOKEN')
       end
     end
+  
+    describe "No oauth is required when creating another product" do
+      it 'G' 
+    end
 
     describe "Submit a form for new product" do
       it 'Create a new product' do
@@ -39,7 +43,7 @@ RSpec.describe GoodsController, type: :controller do
 
       it 'Render the express#index page upon success' do
         post :create, params
-        expect(response).to redirect_to '/express_select'
+        expect(response).to redirect_to '/express_select/new'
       end
     end
   end
