@@ -31,7 +31,11 @@ RSpec.describe GoodsController, type: :controller do
     end
   
     describe "No oauth is required when creating another product" do
-      it 'G' 
+      it 'Load page without oauth' do
+        session[:openid] = user.weixin
+        get :new
+        expect(response).to render_template(:new)
+      end
     end
 
     describe "Submit a form for new product" do

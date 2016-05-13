@@ -6,6 +6,9 @@ class ExpressSelectController < ApplicationController
   end
 
   def create
+    product = Good.find session[:good_in_creating]
+    product.update :express_method, ExpressMethod.find(params[:express_method])
+    PublishProductJob.perform_later product
     render :success
   end
 end
