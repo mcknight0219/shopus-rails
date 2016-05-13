@@ -12,7 +12,7 @@ class ExpressController < ApplicationController
   def create
     method = ExpressMethod.create(params.permit(:company, :country, :unit, :rate, :duration, :note).merge(subscriber: current_subscriber))
     mode = if method.valid? then 'success' else 'failure' end
-    redirect_to action: 'index', mode: mode
+    redirect_to controller: 'express_select', action: 'new', mode: mode
   end
 
   def show

@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510062501) do
+ActiveRecord::Schema.define(version: 20160513215248) do
 
   create_table "express_methods", force: :cascade do |t|
     t.string   "company",       limit: 255
     t.integer  "unit",          limit: 4
-    t.decimal  "rate",                        precision: 10
+    t.float    "rate",          limit: 24
     t.string   "country",       limit: 255
     t.integer  "duration",      limit: 4
     t.text     "description",   limit: 65535
     t.integer  "subscriber_id", limit: 4
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_index "express_methods", ["subscriber_id"], name: "index_express_methods_on_subscriber_id", using: :btree
@@ -31,11 +31,11 @@ ActiveRecord::Schema.define(version: 20160510062501) do
     t.string   "name",              limit: 255
     t.string   "brand",             limit: 255
     t.string   "currency",          limit: 255
-    t.decimal  "price",                           precision: 10
+    t.float    "price",             limit: 24
     t.text     "description",       limit: 65535
     t.integer  "subscriber_id",     limit: 4
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "express_method_id", limit: 4
   end
 

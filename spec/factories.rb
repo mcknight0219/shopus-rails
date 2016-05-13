@@ -27,4 +27,13 @@ FactoryGirl.define do
     association :subscriber, factory: :a_subscriber 
     created_at { Time.now.to_s }
   end
+
+  factory :a_product, class: Good do
+    name 'bag'
+    brand 'coach'
+    currency 'CAD'
+    price 99.99
+    description 'buy this'
+    association :subscriber, factory: :a_subscriber
+  end
 end
