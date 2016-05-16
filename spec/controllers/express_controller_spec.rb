@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ExpressController, mode: :controller do
 
   let!(:user)     { create(:a_subscriber) }
-  let!(:a_express_method) { create(:a_shipping_method) } 
+  let!(:a_express_method) { create(:a_shipping_method, :subscriber => user) } 
   
   before(:each) do 
     session[:openid] = user.weixin
@@ -34,4 +34,13 @@ RSpec.describe ExpressController, mode: :controller do
       end
     end
   end
+
+  describe 'Get express methods belong to subscriber' do
+
+    it 'Get all shipping methods' do
+      get :index
+      expect(response.body).to include_json(status: 'ok', express: [a_express_method.as_json(:except => [:created_at, :updated_at])] )
+    end
+  end
+
 end

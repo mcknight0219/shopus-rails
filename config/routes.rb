@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :express
   resources :edit_express
   resources :express_select, :only => [:new, :create]
+  resources :edit_express,   :only => [:index]
 
   post    'photo' => 'photo#create'
   delete  'photo/:id' => 'photo#destroy'

@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+case Rails.env
+when 'development'
+  user = Subscriber.create(weixin: 'test01')
+  ExpressMethod.create!(company: 'CanadaPost', unit: 1, rate: 3.33, country: 'Canada', duration: 1, description: '', subscriber: user)
+end
