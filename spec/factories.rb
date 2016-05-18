@@ -36,4 +36,9 @@ FactoryGirl.define do
     description 'buy this'
     association :subscriber, factory: :a_subscriber
   end
+
+  factory :logo, class: Logo do
+    name  'canada post'
+    url   'https://www.canadapost.ca/assets/img/cp_logo.svg'
+  end
 end

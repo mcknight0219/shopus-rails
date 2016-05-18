@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513215248) do
+ActiveRecord::Schema.define(version: 20160518215348) do
 
   create_table "express_methods", force: :cascade do |t|
     t.string   "company",       limit: 255
@@ -41,6 +41,12 @@ ActiveRecord::Schema.define(version: 20160513215248) do
 
   add_index "goods", ["express_method_id"], name: "index_goods_on_express_method_id", using: :btree
   add_index "goods", ["subscriber_id"], name: "index_goods_on_subscriber_id", using: :btree
+
+  create_table "logos", force: :cascade do |t|
+    t.string "name", limit: 255
+    t.string "url",  limit: 255
+    t.binary "data", limit: 65535
+  end
 
   create_table "product_photos", force: :cascade do |t|
     t.string   "format",        limit: 255

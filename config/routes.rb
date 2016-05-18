@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'logo/show'
+
   root 'main#index'
   resources :main
 
@@ -7,6 +9,7 @@ Rails.application.routes.draw do
   resources :edit_express
   resources :express_select, :only => [:new, :create]
   resources :edit_express,   :only => [:index]
+  resources :logo, :only => [:show]
 
   post    'photo' => 'photo#create'
   delete  'photo/:id' => 'photo#destroy'

@@ -12,7 +12,7 @@ class ExpressController < ApplicationController
   end
 
   def create
-    method = ExpressMethod.create(params.permit(:company, :country, :unit, :rate, :duration, :note).merge(subscriber: current_subscriber))
+    method = ExpressMethod.create(params.permit(:company, :country, :unit, :rate, :duration, :description).merge(subscriber: current_subscriber))
     mode = if method.valid? then 'success' else 'failure' end
     redirect_to controller: 'express_select', action: 'new', mode: mode
   end
@@ -21,6 +21,9 @@ class ExpressController < ApplicationController
   end
 
   def update
+    updates = params.permit :company, :country, :unit, :rate, :duration, :description
+    ExpressMethod.find(params[:id]).update_columns updates unless updates.empty?
+    render :json => {:status => 'ok'}
   end
 
   def destroy

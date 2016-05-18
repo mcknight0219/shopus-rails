@@ -44,8 +44,31 @@ RSpec.describe ExpressController, mode: :controller do
   end
 
   describe '#update' do
-    it 'Update existing express method' do
+    it 'Update existing express method rate' do
+      patch :update, 
+        :id       => a_express_method.id,
+        :company  => a_express_method.company, 
+        :country  => a_express_method.country,
+        :unit     => a_express_method.unit,
+        :rate     => 4.01,
+        :duration => a_express_method.duration,
+        :description => a_express_method.description
+      expect(response.body).to include_json(status: 'ok')
+      a_express_method.reload
+      expect(a_express_method.rate).to eq 4.01
+    end
 
+    it 'Update existing express method description' do
+      expect { patch :update, :id => a_express_method.id, :description => 'A new description' }.to change {a_express_method.reload.description}
+      expect(response.body).to include_json(status: 'ok')
+    end
+
+    it 'Update nothing' do
+      expect { patch :update, :id => a_express_method.id }.to_not change {a_express_method.reload}
+      expect(response.body).to include_json(status: 'ok')
+
+      expect { patch :update, :id => a_express_method.id, :rate => a_express_method.rate }.to_not change {a_express_method.reload}
     end
   end
+
 end
