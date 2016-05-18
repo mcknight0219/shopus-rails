@@ -43,4 +43,9 @@ RSpec.describe ExpressController, mode: :controller do
     end
   end
 
+  describe '#update' do
+    it 'Update existing express method' do
+
+    end
+  end
 end

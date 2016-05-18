@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 class Express extends Backbone.Model
+  url: '/express'
 
 class ExpressList extends Backbone.Collection
   model: Express
@@ -94,6 +95,9 @@ class EditorView extends Backbone.View
       else @$el.hide()
 
     @hide = !@hide
+
+  update: ->
+
 
   render: ->
     @$el.html( @template(@model) )
