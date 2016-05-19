@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ExpressMethod, type: :model do
   let (:user) { create :a_subscriber }
-  let! (:express_method) { ExpressMethod.create!(company: 'company name', unit: 1, rate: 1.1, country: 'canada', duration: 1, description: 'description', subscriber: user) }
+  let! (:express_method) { ExpressMethod.create!(company: 'company name', unit: 1, rate: 1.0, country: 'canada', duration: 1, description: 'description', subscriber: user) }
   let! (:product) { Good.create!(name: 'product name', brand: 'brand name', currency: 'CAD', price: 100.0, description: 'na', subscriber: user, express_method: express_method) }
 
   describe "#initialize" do

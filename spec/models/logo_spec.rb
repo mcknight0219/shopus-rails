@@ -27,5 +27,11 @@ RSpec.describe Logo, type: :model do
       logo.fetch
       expect(Base64.decode64 logo.data).to eq File.read Rails.root.join('spec', 'fixtures', 'logo.svg')
     end
+
+    it 'Skip if file is too large' do
+      logo.url = 'http://static.coach.com/aapz_prd/on/demandware.static/Sites-Coach_US-Site/-/default/dw54ab8442/images/coach-logo.png'
+      expect {logo.fetch}.to_not change {logo.data}
+      expect(logo.remote?).to be_truthy
+    end
   end
 end
