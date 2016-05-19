@@ -38,7 +38,7 @@ FactoryGirl.define do
   end
 
   factory :logo, class: Logo do
-    name  'canada post'
+    name  'canada_post'
     url   'https://www.canadapost.ca/assets/img/cp_logo.svg'
   end
 end

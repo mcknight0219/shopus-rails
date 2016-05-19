@@ -6,49 +6,55 @@ class Express extends Backbone.Model
   url: '/express'
 
 class ExpressView extends Backbone.View
-  tagName: "div"
-  template: _.template('<div class="weui_cell"><div class="weui_cell_hd"><img src=<%= url %> style="width:40px;margin-right:5px;diplay:block"></div><div class="weui_cell_hd weui_cell_primary"><%= company %></div><div class="weui_cell_ft"></div></div>')
+  tagName: "a"
+  template: _.template('<div class="weui_cell_hd"><img src="http://www.logodesignlove.com/images/classic/canada-post-logo.jpg" style="width:40px;margin-right:5px;diplay:block"></div><div class="weui_cell_hd weui_cell_primary"><%= company %></div><div class="weui_cell_ft"></div>')
   className: "weui_cell"
 
   events:
     "click .weui_cell":   "toggleDetails"
 
-  initialize: ->
+  initialize: =>
+    @fetchLogo()
     @editor = new EditorView(@model)
-  
+
+  fetchLogo: ->
+    $.ajax "/logo/#{@normalize @model.get('company')}",
+      success: (data, textStatus, xhr) =>
+        @
+
+  normalize: (s) ->
+    s.toLowerCase().replace ' ', '_'
+
   toggleDetails: (e) ->
     @editor.toggle()
 
   render: =>
-    $('#express_list').append @template({company: @model.get('company'), url: @model.get('url')})
+    @$el.html(@template({company: @model.get('company')}))
+    @
  
 class ExpressList extends Backbone.Collection
   model: Express
   url: '/express'
 
-  comparator: 'company'
-
   parse: (response) =>
     response.express
     
   initialize: ->
-    @fetch {reset: true}
+    @fetch({reset: true})
 
 class ExpressListView extends Backbone.View
   li: '#express_list'
   
-  initialize: ->
+  initialize: =>
     @subviews = []
     @list = new ExpressList
-    @list.bind('reset', 'addSubviews')
+    @list.bind('reset', @addSubviews)
 
   addSubviews: =>
     @list.each (m) =>
       ev = new ExpressView {model: m}
       @subviews.push ev
-      @el.append ev.render().el
-    
-
+      @$el.append(ev.render().el)
 
 class EditorView extends Backbone.View
   tagName: "div"
@@ -116,3 +122,5 @@ class EditorView extends Backbone.View
   render: ->
     @$el.html( @template(@model) )
     @
+
+window._expressMethodsList = new ExpressListView

@@ -9,10 +9,11 @@ Rails.application.routes.draw do
   resources :edit_express
   resources :express_select, :only => [:new, :create]
   resources :edit_express,   :only => [:index]
-  resources :logo, :only => [:show]
 
   post    'photo' => 'photo#create'
   delete  'photo/:id' => 'photo#destroy'
+
+  get     'logo/:name' => 'logo#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

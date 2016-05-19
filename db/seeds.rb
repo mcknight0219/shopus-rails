@@ -8,5 +8,5 @@
 case Rails.env
 when 'development'
   user = Subscriber.create(weixin: 'test01')
-  ExpressMethod.create!(company: 'CanadaPost', unit: 1, rate: 3.33, country: 'Canada', duration: 1, description: '', subscriber: user)
+  ExpressMethod.create!(company: 'canada_post', unit: 1, rate: 3.33, country: 'Canada', duration: 1, description: '', subscriber: user)
 end
