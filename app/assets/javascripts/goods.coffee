@@ -79,7 +79,7 @@ class ImageCellsView extends Backbone.View
   el: 'div .weui_uploader_files'
 
   events:
-    "click input[type=\"file\"]" :    "resetFile"
+    "click input[type=\"file\"]" :    "resetFile",
     "change input[type=\"file\"]":    "addFile",
     "click li" : "prompt",
     "click .weui_btn_dialog.primary": "confirmDelete",

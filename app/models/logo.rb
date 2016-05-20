@@ -9,8 +9,9 @@ class Logo < ActiveRecord::Base
   # Only download image whose size is less than 32k
   def fetch
     data = open(self.url).read
-    mime = "image/#{/[^\.]+\.([a-z]+)$/.match(self.url)[1]}"
-    update_column :data, "data:#{mime};base64,#{Base64.encode64(data)}" if data.length < 32 * 1024
+    mime = 
+
+    update_column :data, "data:image/#{mime_type self.url};base64,#{Base64.encode64(data)}" if data.length < 32 * 1024
   end
 
   # True if no data is stored in db
@@ -21,5 +22,10 @@ class Logo < ActiveRecord::Base
   private
     def set_default_values
       self.data ||= ''
+    end
+
+    def mime_type url
+      format = /[^\.]+\.([a-z]+)$/.match(url)[1]
+      if format == 'svg' then "#{format}+xml" else format end
     end
 end
