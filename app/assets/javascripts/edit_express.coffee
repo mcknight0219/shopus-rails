@@ -20,7 +20,9 @@ class ExpressView extends Backbone.View
   fetchLogo: ->
     $.ajax "/logo/#{@normalize @model.get('company')}",
       success: (data, textStatus, xhr) =>
-        @
+        unless data.type === undefined
+          @$
+
 
   normalize: (s) ->
     s.toLowerCase().replace ' ', '_'
@@ -43,7 +45,7 @@ class ExpressList extends Backbone.Collection
     @fetch({reset: true})
 
 class ExpressListView extends Backbone.View
-  li: '#express_list'
+  el: '#express_list'
   
   initialize: =>
     @subviews = []

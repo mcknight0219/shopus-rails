@@ -9,7 +9,8 @@ class Logo < ActiveRecord::Base
   # Only download image whose size is less than 32k
   def fetch
     data = open(self.url).read
-    update_column :data, Base64.encode64(data) if data.length < 32 * 1024
+    mime = "image/#{/[^\.]+\.([a-z]+)$/.match(self.url)[1]}"
+    update_column :data, "data:#{mime};base64,#{Base64.encode64(data)}" if data.length < 32 * 1024
   end
 
   # True if no data is stored in db

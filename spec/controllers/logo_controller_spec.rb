@@ -23,7 +23,7 @@ RSpec.describe LogoController, type: :controller do
       get :show, :name => logo.name
       expect(response.body).to include_json(
         status: 'ok',
-        url:    logo.url
+        data:    logo.url
       )
     end
 

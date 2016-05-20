@@ -25,7 +25,7 @@ RSpec.describe Logo, type: :model do
 
     it 'Download the same image as fixture' do
       logo.fetch
-      expect(Base64.decode64 logo.data).to eq File.read Rails.root.join('spec', 'fixtures', 'logo.svg')
+      expect(Base64.decode64 logo.data.split(',')[1]).to eq File.read Rails.root.join('spec', 'fixtures', 'logo.svg')
     end
 
     it 'Skip if file is too large' do

@@ -8,4 +8,8 @@ namespace :logo do
     logo.fetch
   end
 
+  task :update, [:name] => [:environment] do |t, args|
+    logo = Logo.find_by :name => args[:name]
+    logo.fetch
+  end
 end
