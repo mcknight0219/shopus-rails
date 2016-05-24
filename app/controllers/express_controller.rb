@@ -3,7 +3,7 @@ class ExpressController < ApplicationController
   before_action :assert_user_presence, :except => [:index] 
 
   def index
-    render :json => {:status => 'ok', :express => ExpressMethod.all.to_a.map { |e| e.as_json :except => [:created_at, :updated_at] } }
+    render :json => {:status => 'ok', :express => ExpressMethod.all.to_a.map { |e| e.as_json :except => [:updated_at] } }
   end
 
   def new

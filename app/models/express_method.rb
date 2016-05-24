@@ -15,7 +15,11 @@ class ExpressMethod < ActiveRecord::Base
     UNITS[self[:unit]-1]
   end
 
-  def shipping_estimate
+  def description
+    if self[:description].empty? then "No note available" else self[:description] end
+  end
+
+  def duration
     ESTIMATE[self[:duration]-1]
   end
 

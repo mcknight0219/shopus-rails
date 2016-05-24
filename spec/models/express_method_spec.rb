@@ -8,7 +8,7 @@ RSpec.describe ExpressMethod, type: :model do
   describe "#initialize" do
     it 'Access attributes' do
       expect(express_method.unit).to eq 'kg'
-      expect(express_method.shipping_estimate).to eq 'less than a week'
+      expect(express_method.duration).to eq 'less than a week'
     end
 
     it 'Access assoication' do

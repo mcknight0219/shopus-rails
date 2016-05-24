@@ -11,37 +11,21 @@
       </div>
     </div>
 
-    <div class="weui_cells_title">&nbsp;</div>
-    <div class="weui_cells weui_cells_access" id="express_list"></div>
+    <div class="weui_panel">
+        <div id="express_list" class="weui_panel_bd"></div>
+    </div>
+    
+    <div id="editor_modal"></div>
   </div>
 
   <script type="text/tempalte" id="editor_dialog_template">
     <div id="editor_dialog" class="weui_dialog_confirm">
       <div class="weui_mask"></div>
       <div class="weui_dialog">
-        <div class="weui_dialog_hd"><strong class="weui_dialog_title">Edit Express Method</strong></div>
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title"></strong></div>
         <div class="weui_dialog_bd">
           <div class="weui_cells weui_cells_form">
-            <div class="weui_cell">
-              <div class="weui_cell_hd">
-                <label class="weui_label">Company</label>
-              </div>
-              <div class="div weui_cell_hd weui_cell_primary"><input id="company_field" class="weui_input" type="text" placeholder=""></div>
-            </div>
-
-            <div class="weui_cell weui_cell_select weui_select_after">
-              <div class="weui_cell_hd">
-                <label for class="weui_label">Country</label>
-              </div>
-              <div class="weui_cell_bd weui_cell_primary">
-                <select id="country_option" class="weui_select">
-                  <option value="Canada">加拿大</option>
-                  <option value="USA">美国</option>
-                  <option value="China">中国</option>
-                </select>
-              </div>
-            </div>
-
+            
             <div class="weui_cell weui_cell_select weui_select_before">
               <div class="weui_cell_hd">
                 <select id="unit_option" class="weui_select">
@@ -57,17 +41,17 @@
               <div class="weui_cell_hd"><label for class="weui_label" for="">EAT</label></div>
               <div class="weui_cell_bd weui_cell_primary">
                 <select id="time_option" class="weui_select">
-                  <option value="1">One week</option>
-                  <option value="2">Two weeks</option>
-                  <option value="3">One month</option>
+                  <option value="1">one week</option>
+                  <option value="2">two weeks</option>
+                  <option value="3">one month</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
         <div class="weui_dialog_ft">
-          <a class="weui_btn_dialog default" href="">Cancel</a>
-          <a class="weui_btn_dialog primary" href="">Save</a>
+          <a class="weui_btn_dialog default">Cancel</a>
+          <a class="weui_btn_dialog primary">Save</a>
         </div>
       </div>
     </div>

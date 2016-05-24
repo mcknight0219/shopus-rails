@@ -4,30 +4,50 @@ class Express extends Backbone.Model
 
   name: ->
     denormalize @get('company')
+
+  save: (attrs, options) =>
+    console.log @changedAttributes()
+    # $.ajax "/express/#{@get('id')}",
+    #   type: 'PATCH'
+    #   beforeSend: (xhr) =>
+    #     xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')
+    #   contentType: 'application/json'
+    #   data: @toJSON()
+    #   success: (xhr, status, error)=>
+    #     @set('state', 'success')
+    #   error: (xhr, status, error) =>
+    #     @set('state', 'failure')
   
+ 
 class ExpressView extends Backbone.View
-  tagName: "a"
-  template: _.template('<div class="weui_cell_hd"><img src="" style="width:27px;margin-right:5px;diplay:block"></div><div class="weui_cell_hd weui_cell_primary"><%= company %></div><div class="weui_cell_ft"></div>')
-  className: "weui_cell"
+  tagName: "div"
+  template: _.template("""
+      <h4 class="weui_media_title"><%= company %></h4>
+      <p class="weui_media_desc"><%= desc %></p>
+      <ul class="weui_media_info">
+        <li class="weui_media_info_meta"><%= price %></li>
+        <li class="weui_media_info_meta"><%= timestamp %></li>
+        <li class="weui_media_info_meta weui_media_info_meta_extra"><%= eta %></li>
+      </ul>
+    """)
+
+  className: 'weui_media_box weui_media_text'
 
   events:
     "click":   "showEditorModal"
 
-  initialize: =>
-    @fetchLogo()
-
-  fetchLogo: ->
-    $.ajax "/logo/#{normalize @model.get('company')}",
-      success: (data, textStatus, xhr) =>
-        unless data.type is undefined
-          @$('img').attr('src', data.data)
-
+  initialize: ->
+    @desc = @model.get('description')
+    @price = "#{@model.get('rate')} / #{@model.get('unit')}"
+    @timestamp = @model.get('created_at')
+    @eta = @model.get('duration')
 
   showEditorModal: (e) ->
+    editor = new EditorModal({model: @model})
     editor.render()
 
   render: =>
-    @$el.html(@template({company: @model.name()}))
+    @$el.append(@template({company: @model.name(name), desc: @desc, price: @price, timestamp: @timestamp, eta: @eta}))
     @
  
 class ExpressList extends Backbone.Collection
@@ -55,33 +75,38 @@ class ExpressListView extends Backbone.View
       @$el.append(ev.render().el)
 
 class EditorModal extends Backbone.View
+  el: '#editor_modal'
+
   dlgTpl: _.template($('#editor_dialog_template').html())
   
   events:
     "click a.weui_btn_dialog.default" : "cancel",
     "click a.weui_btn_dialog.primary" : "save"
 
-  initialize: ->
-
   cancel: ->
-    @$('#editor_dialog').remove()
+    @$el.empty()
 
   save: ->
-    @model.set('company', normalize @$('#company_field').val())
-    @model.set('country', @$('#country_option').val())
     @model.set('unit',    @$('#unit_option').val())
-    @model.set('rate',    @$('#rate_field').val())
-    @model.set('duration',@$('#time_option').val())
-    @model.save({patch: true})
+      .set('rate',    @$('#rate_field').val())
+      .set('duration',@$('#time_option').val())
+      .save({patch: true})
+    @cancel()
 
-    @cancel
+  setVals: ->
+    @$('.weui_dialog_title').html("#{@model.name()}")
+    @$('#rate_field').attr('placeholder', @model.get('rate'))
+    @$('#unit_option > option').each (i, e) =>
+      if e.text is @model.get('unit')
+        @$('#unit_option').val(e.value)
 
-  populateDefaultValues: ->
-    
+    @$('#time_option > option').each (i, e) =>
+      if e.text is @model.get('duration')
+        @$('#time_option').val(e.value)
 
   render: =>
-    $('.container').append(@dlgTpl())
-    @populateDefaultValues()
+    @$el.html(@dlgTpl())
+    @setVals()
     @
 
 window.normalize = (s) ->
@@ -92,5 +117,4 @@ window.denormalize = (s) ->
       w.charAt(0).toUpperCase() + w.slice(1)
     ).join(' ')
 
-editor = new EditorModal
 window._expressMethodsList = new ExpressListView
