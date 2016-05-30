@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'rake'
 
 feature 'Subscriber edit his shipping method', :js => true do
   let(:user) { create(:a_subscriber) }
@@ -9,12 +10,16 @@ feature 'Subscriber edit his shipping method', :js => true do
   end
 
   after(:all) do
-    WebMock.disable_net_connect!
+    WebMock.disable_net_connect!(allow: %r{/hub/session})
   end
 
   scenario 'subscriber visit the page and see his shipping methods' do
     visit '/edit_express'
-    binding.pry
     expect(page).to have_content(shipping.company)
+  end
+
+
+  def denormalize(s)
+    s.split('_').map { |w| w.capitalize }.join(' ')
   end
 end
