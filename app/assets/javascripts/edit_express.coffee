@@ -94,7 +94,7 @@ class EditorModal extends Backbone.View
     @cancel()
 
   setVals: ->
-    @$('.weui_dialog_title').html("#{@model.name()}")
+    @$('.weui_dialog_title').html("Edit #{@model.name()}")
     @$('#rate_field').attr('placeholder', @model.get('rate'))
     @$('#unit_option > option').each (i, e) =>
       if e.text is @model.get('unit')
