@@ -67,12 +67,16 @@ class ExpressListView extends Backbone.View
     @subviews = []
     @list = new ExpressList
     @list.bind('reset', @addSubviews)
+    @list.bind('destroy', @refreshSubviews)
 
   addSubviews: =>
     @list.each (m) =>
       ev = new ExpressView {model: m}
       @subviews.push ev
       @$el.append(ev.render().el)
+
+  refreshSubviews: (model, collection)=>
+    console.log 'A model is deleted'
 
 class EditorModal extends Backbone.View
   el: '#editor_modal'
@@ -81,7 +85,8 @@ class EditorModal extends Backbone.View
   
   events:
     "click a.weui_btn_dialog.default" : "cancel",
-    "click a.weui_btn_dialog.primary" : "save"
+    "click a.weui_btn_dialog.primary" : "save",
+    "click a#delete_link": "delete"
 
   cancel: ->
     @$el.empty()
@@ -92,6 +97,10 @@ class EditorModal extends Backbone.View
       .set('duration',@$('#time_option').val())
       .save({patch: true})
     @cancel()
+
+  delete: =>
+    @actionSheet = new ActionSheet({model: @model})
+    @actionSheet.render()
 
   setVals: ->
     @$('.weui_dialog_title').html("Edit #{@model.name()}")
@@ -108,6 +117,33 @@ class EditorModal extends Backbone.View
     @$el.html(@dlgTpl())
     @setVals()
     @
+
+class ActionSheet extends Backbone.View
+  el: '#action_sheet'
+
+  sheetTpl: _.template($('#delete_action_sheet_template').html())
+
+  events:
+    'click #actionsheet_delete': 'delete',
+    'click #actionsheet_cancel': 'cancel'
+
+  cancel: ->
+    @fadeOut()
+
+  delete: ->
+    @model.destroy()
+
+  fadeIn: ->
+    mask = @$('#mask')
+    @$('#weui_actionsheet').addClass('weui_actionsheet_toggle')
+    @$('#mask').show().focus().addClass('weui_fade_toggle')
+
+  fadeOut: ->
+    @$('#weui_actionsheet').removeClass('weui_actionsheet_toggle')
+
+  render: =>
+    @$el.html(@sheetTpl())
+    @fadeIn()
 
 window.normalize = (s) ->
     s.toLowerCase().replace ' ', '_'

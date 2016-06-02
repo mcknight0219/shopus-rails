@@ -30,7 +30,7 @@ class ExpressController < ApplicationController
     unless express.can_delete?
       render :json => {:status => 'bad', :errmsg => 'Cannot remove the express emthod.'}
     else
-      express.delete      
+      # express.delete      
       render :json => {:status => 'ok'}
     end
   end
