@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="weui_cell" style="text-align: right;">
-              <a id="delete_link">Delete?</a>
+              <a id="delete_link" href="javascript:void(0);">Delete?</a>
           </div>
         </div>
         <div class="weui_dialog_ft">
@@ -65,8 +65,9 @@
 
   <script id="delete_action_sheet_template" type="text/template">
     <div id="delete_action_sheet">
-      <div id="mask" class="weui_mask_transition"></div>
-      <div id="weui_actionsheet" class="weui_actionsheet">
+      <%#The dialog box has z-index of 13 !%>
+      <div id="mask" class="weui_mask_transition" style="z-index:200;"></div>
+      <div id="weui_actionsheet" class="weui_actionsheet" style="z-index:201;">
         <div class="weui_actionsheet_menu">
           <div id="actionsheet_delete" class="weui_actionsheet_cell"><span style="color:red;">Delete</span></div>
         </div>

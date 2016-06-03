@@ -131,6 +131,7 @@ class ActionSheet extends Backbone.View
     @fadeOut()
 
   delete: ->
+    console.log @model.get('id')
     @model.destroy()
 
   fadeIn: ->
@@ -140,10 +141,23 @@ class ActionSheet extends Backbone.View
 
   fadeOut: ->
     @$('#weui_actionsheet').removeClass('weui_actionsheet_toggle')
+    @$('#mask').removeClass('weui_fade_toggle')
+    @$('#mask').on('transitionend', ()->
+      $('#mask').hide()
+    ).on('webkitTransitionEnd', ()->
+      $('#mask').hide()
+    )
 
   render: =>
     @$el.html(@sheetTpl())
     @fadeIn()
+
+
+oldSync = Backbone.sync
+Backbone.sync = (method, model, options) ->
+  options.beforeSend = (xhr) ->
+    xhr.setRequestHeader 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')
+  oldSync(method, model, options)
 
 window.normalize = (s) ->
     s.toLowerCase().replace ' ', '_'

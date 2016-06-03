@@ -15,31 +15,29 @@ feature 'Subscriber edit his shipping method', :js => true do
     clobber_asset_task
   end
 
-  scenario 'subscriber visit the page and see his shipping methods' do
-    visit '/edit_express'
-    expect(page).to have_content(denormalize shipping.company)
-    find('.weui_media_box.weui_media_text').click 
+  # scenario 'subscriber visit the page and see his shipping methods' do
+  #   visit '/edit_express'
+  #   expect(page).to have_content(denormalize shipping.company)
+  #   find('.weui_media_box.weui_media_text').click 
 
-    expect(page).to have_content("Edit #{denormalize shipping.company}")
-    expect(page).to have_selector("input[placeholder='#{shipping.rate}']")
-    expect(page).to have_select('unit_option', :selected => shipping.unit)
-    expect(page).to have_select('time_option', :selected => shipping.duration)
-  end
+  #   expect(page).to have_content("Edit #{denormalize shipping.company}")
+  #   expect(page).to have_selector("input[placeholder='#{shipping.rate}']")
+  #   expect(page).to have_select('unit_option', :selected => shipping.unit)
+  #   expect(page).to have_select('time_option', :selected => shipping.duration)
+  # end
 
-  scenario 'subscriber click delete and cancel' do
-    visit '/edit_express'
-    find('.weui_media_box.weui_media_text').click
+  # scenario 'subscriber click delete and cancel' do
+  #   visit '/edit_express'
+  #   find('.weui_media_box.weui_media_text').click
 
-    within("#editor_dialog") do
-      expect(page).to have_link('Delete?')
-      click_link 'Delete?'
-    end
+  #   within("#editor_dialog") do
+  #     expect(page).to have_link('Delete?')
+  #     click_link 'Delete?'
+  #   end
     
-    expect(page).to have_content('Delete')
-    expect(page).to have_content('Cancel')
-    find('#actionsheet_cancel').click
-    expect(page).to not_have_content('Cancel')
-  end
+  #   expect(page).to have_content('Delete')
+  #   expect(page).to have_content('Cancel')
+  # end
 
   scenario 'subscriber click delete and confirm' do
     visit '/edit_express'
@@ -50,7 +48,7 @@ feature 'Subscriber edit his shipping method', :js => true do
     end
     
     find('#actionsheet_delete').click
-    expect(page).to not_have_content(denormalize shipping.company)
+    expect(page).to have_no_content(denormalize shipping.company)
   end
 
 
