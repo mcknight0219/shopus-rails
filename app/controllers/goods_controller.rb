@@ -1,8 +1,6 @@
 class GoodsController < ApplicationController
   include MainHelper
-  include Identity
-  
-  before_action :assert_granted, only: [:index, :new]
+  before_action :assert_wechat_granted
 
   def index
   end
@@ -30,12 +28,6 @@ class GoodsController < ApplicationController
   end
 
   private
-    def assert_granted
-      return unless current_subscriber.nil?
-      return render template: :unauthorized unless params.key? :code
-      auth_with_wechat
-    end
-
     def post_process(good)
       UploadsProcessJob.perform_later session[:uploads] if session[:uploads].present?
       session[:good_in_creating] = good.id

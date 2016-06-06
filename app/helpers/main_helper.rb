@@ -35,4 +35,8 @@ module MainHelper
     return nil unless session[:openid]
     Subscriber.find_by(:weixin => session[:openid])
   end
+
+  def assert_wechat_granted
+    return render template: :unauthorized if current_subscriber.nil?
+  end
 end

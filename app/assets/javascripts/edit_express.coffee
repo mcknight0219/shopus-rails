@@ -1,6 +1,6 @@
 
 class Express extends Backbone.Model
-  url: '/express'
+  urlRoot: '/express'
 
   name: ->
     denormalize @get('company')
