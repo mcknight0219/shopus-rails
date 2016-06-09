@@ -26,7 +26,17 @@ RSpec.describe GateController, type: :controller do
         expect(assigns(:access_token)).to eq 'ACCESS_TOKEN'
       end
 
-      it 'authenticate and redirect on '
+      it 'authenticate and redirect on url without leading slash' do
+        get :index, :code => 'CODE', :redirectTo => 'goods/new'
+        expect(response).to redirect_to '/goods/new'
+        expect(assigns(:openid)).to eq user.weixin
+        expect(assigns(:access_token)).to eq 'ACCESS_TOKEN'
+      end
+
+      it 'no redirectTo provided, redirect to default page depends on type of user' do
+        get :index, :code => 'CODE'
+        
+      end
     end
   end
 
