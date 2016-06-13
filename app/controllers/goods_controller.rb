@@ -18,7 +18,7 @@ class GoodsController < ApplicationController
       redirect_to :controller => :express_select, :action => :new
     rescue => e
       flash[:error] = '无法创建新的商品，请稍后重试'
-      render :new
+      redirect_to :action => :new
     end
   end
 

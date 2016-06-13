@@ -15,17 +15,28 @@ feature 'Subscriber create a good' do
         }.to_json,
         :status => 200,
         :headers => {'Content-Type' => 'application/json'})
+
+    stub_request(:get, "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN").
+      to_return(
+        :body => {
+          openid: user.weixin,
+          nickname: 'mcknight0219',
+          sex: 1,
+          headimage: "https://upload.wikimedia.org/wikipedia/commons/0/07/Avatar_girl_face.png"
+       }.to_json,
+        :status => 200,
+        :headers => {'Content-Type' => 'application/json'})
   end
 
   scenario 'with valid input' do
-    visit '/goods/new?code=CODE'    
+    visit '/gate/index?redirectTo=goods/new&code=CODE'    
     fill_and_submit_good_form
 
     expect(page).to have_content '请选择或新增邮寄方式'
   end
 
   scenario 'See no express method available' do
-    visit '/goods/new?code=CODE'    
+    visit 'gate/index?redirectTo=goods/new&code=CODE'    
     fill_and_submit_good_form
 
     see_no_express_method_available
