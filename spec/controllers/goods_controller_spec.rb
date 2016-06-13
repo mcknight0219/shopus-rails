@@ -27,6 +27,9 @@ RSpec.describe GoodsController, type: :controller do
         expect(response).to redirect_to '/express_select/new'
       end
     end
+
+    describe "Get subscriber's goods list" do
+    end
   end
 
   context 'failure' do

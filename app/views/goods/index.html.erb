@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="cell">
+    <div class="profile_banner">
+      <div class="head_image"><img src=<%= @headimage %>></div>
+      <div class="head_text">
+        <h4><span style="color: black;"><%= @nickname %></span>, 管理您的商品</h4>
+      </div>
+    </div>
+    <div class="cell" id="product-list">
+      <% if @products.nil? %>
+        <div class="notification-center-big">您还没有任何商品。点击这里<a href="/goods/new">添加</a></div>
+      <% else %>
+        <div class="weui_panel weui_panel_access">
+          <div class="weui_panel_hd">&nbsp;</div>
+          <div class="weui_panel_bd">
+            <% @products.each do |p| %>
+
+
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

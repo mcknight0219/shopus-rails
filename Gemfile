@@ -39,6 +39,7 @@ gem 'puma'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry'
 end
 
 group :test do
@@ -48,7 +49,6 @@ group :test do
     gem 'factory_girl_rails', '~> 4.0'
     gem 'capybara'
     gem 'selenium-webdriver'
-    gem 'pry'
     gem 'database_cleaner'
 end
 

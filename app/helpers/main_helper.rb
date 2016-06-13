@@ -39,4 +39,11 @@ module MainHelper
   def assert_wechat_granted
     return render template: :unauthorized if current_subscriber.nil?
   end
+
+  def unpack_profile_data
+    return unless session.has_key? :profile
+    JSON.parse(session[:profile]).each do |key, value|
+      self.instance_variable_set "@#{key}", value
+    end
+  end
 end

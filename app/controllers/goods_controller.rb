@@ -1,8 +1,12 @@
+require 'pry'
+
 class GoodsController < ApplicationController
   include MainHelper
   before_action :assert_wechat_granted
+  before_action :unpack_profile_data
 
   def index
+    products = current_subscriber.goods
   end
 
   def new

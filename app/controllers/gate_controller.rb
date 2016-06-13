@@ -7,6 +7,7 @@ class GateController < ApplicationController
     if params.key? :redirectTo
       path = sanitize_path params[:redirectTo]
     end
+    session[:profile] = JSON.generate({nickname: @nickname, headimage: @headimage, sex: @sex})
     redirect_to path
   end
 

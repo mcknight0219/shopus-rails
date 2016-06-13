@@ -11,10 +11,8 @@ module Identity
     if token["scope"] == 'snsapi_userinfo'
       profile =  HTTP.get("#{Rails.application.secrets.sns_auth_server}userinfo", :params => {:access_token => @access_token, :openid => @openid, :lang => 'zh_CN'}).parse
       @nickname   = profile["nickname"]
-      @headimage  = profile["headimageurl"]
+      @headimage  = profile["headimage"]
       @sex        = [:na, :m, :f].at profile["sex"].to_i
-
-      session[:headimage] = @headimage
     end
   end
 end

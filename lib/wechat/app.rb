@@ -29,7 +29,7 @@ get '/api/userinfo' do
       openid: params['openid'],
       nickname: 'mcknight0219',
       sex: 1,
-      headimage:'https://upload.wikimedia.org/wikipedia/commons/0/07/Avatar_girl_face.png'
+      headimage: "https://upload.wikimedia.org/wikipedia/commons/0/07/Avatar_girl_face.png"
     }.to_json
   end
 end
