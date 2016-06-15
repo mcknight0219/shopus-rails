@@ -6,7 +6,7 @@ class GoodsController < ApplicationController
   before_action :unpack_profile_data
 
   def index
-    products = current_subscriber.goods
+    @products = current_subscriber.goods || Good.none
   end
 
   def new

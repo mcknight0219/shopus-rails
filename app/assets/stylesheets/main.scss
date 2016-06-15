@@ -1,6 +1,12 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+a {
+  background: 0 0;
+  text-decoration: none;
+  -webkit-tap-hightlight-color: transparent;
+}
+
 .container {
   height: 100%;
   overflow-y: auto;
@@ -37,9 +43,74 @@
 .notification-center-big {
   position: fixed;
   font-size: 1.2em;
-  text-align: center;
+  text-align: justify;
+  margin: 0 auto;
   width: 100%;
-  top: 45%;
-  left: 0;
+  top: 45%
 }
 
+.stat-banner {
+  padding: 8px 0;
+  border: 1px solid #E4E4E4;
+  background: #fff;
+
+  span {
+    display: block;
+    text-align: center;
+  }
+
+  .count {
+    height: 21px;
+    line-height: 21px;
+    font-size: 18px;
+    color: #333;
+    overflow: hidden;
+  }
+
+  .text {
+    font-size: 12px;
+    text-align: center;
+    color: #999;
+  }
+
+  .user {
+    height: 18px;
+    line-height: 18px;
+    margin-bottom: 3px;
+    background: url(https://b.yzcdn.cn/v2/image/me.png) center center no-repeat;
+    background-size: contain
+  }
+
+  ul {
+    margin: 0 0 0 0;
+    padding: 0;
+  }
+  li {
+    float: left;
+    width: 33%;
+    list-style: none;
+    border-right: 1px solid #E4E4E4;
+    box-sizing: border-box;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    a {
+      display: block;
+      margin-top: -10px;
+      margin-bottom: -6px;
+    }
+  }
+
+  li:last-child {
+    border-right: 0 none;
+  }
+}
+
+.clearfix, .container {
+  zoom: 1;
+}
+
+.clearfix:after {
+  content: '';
+  display:table;
+  clear: both;
+}

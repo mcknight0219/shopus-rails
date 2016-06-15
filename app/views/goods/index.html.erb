@@ -6,9 +6,12 @@
         <h4><span style="color: black;"><%= @nickname %></span>, 管理您的商品</h4>
       </div>
     </div>
+    <%= render "stat_banner" %>
     <div class="cell" id="product-list">
-      <% if @products.nil? %>
-        <div class="notification-center-big">您还没有任何商品。点击这里<a href="/goods/new">添加</a></div>
+      <% if @products.empty? %>
+        <div class="notification-center-big">
+          <a class="weui_btn weui_btn_plain_default" style="width:60%" href="/goods/new">添加第一个商品吧</a>
+        </div>
       <% else %>
         <div class="weui_panel weui_panel_access">
           <div class="weui_panel_hd">&nbsp;</div>
