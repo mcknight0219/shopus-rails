@@ -1,8 +1,8 @@
 require 'money'
 
 class Good < ActiveRecord::Base
-  CURRENCY_TYPES =  %w(CAD USD CNY).freeze
-  validates :currency, inclusion: { in: CURRENCY_TYPES }
+  CURRENCIES =  %w(CAD USD CNY).freeze
+  validates :currency, inclusion: { in: CURRENCIES }
 
 
   belongs_to  :subscriber
@@ -15,6 +15,6 @@ class Good < ActiveRecord::Base
   end
 
   def has_express_method?
-    self.express_method.nil?
+    express_method.nil?
   end
 end

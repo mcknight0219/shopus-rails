@@ -41,4 +41,8 @@ FactoryGirl.define do
     name  'canada_post'
     url   'https://www.canadapost.ca/assets/img/cp_logo.svg'
   end
+
+  factory :order, class: Order do
+    association :good, factory: :a_product
+  end
 end

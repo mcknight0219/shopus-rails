@@ -27,6 +27,8 @@ gem 'http'
 gem 'money'
 gem 'puma'
 
+gem 'state_machine'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
