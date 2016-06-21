@@ -35,14 +35,15 @@ FactoryGirl.define do
     price 99.99
     description 'buy this'
     association :subscriber, factory: :a_subscriber
+    association :express_method, factory: :a_shipping_method
+  end
+
+  factory :a_order, class: Order  do
+    association :good, factory: :a_product
   end
 
   factory :logo, class: Logo do
     name  'canada_post'
     url   'https://www.canadapost.ca/assets/img/cp_logo.svg'
-  end
-
-  factory :order, class: Order do
-    association :good, factory: :a_product
   end
 end

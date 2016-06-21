@@ -1,20 +1,27 @@
+require 'pry'
+
 class Order < ActiveRecord::Base
-  attr_accessor :order_note, :shipping_method
+  attr_accessor :order_note
   attr_writer   :time_used
 
   belongs_to :good
-  belongs_to :subscriber, :through => :good
+  delegate :subscriber, :currency, :price, :express_method, :to => :good
 
-  scope :fullfilled -> { where(state: :fullfilled) }
-  scope :canceled   -> { where(state: :canceled) }
+  alias_attribute :seller, :subscriber
+  alias_attribute :shipping_method, :express_method
 
-  state_machine :state, :initial => :ordered do
+  scope :fullfilled, -> { where(state: :fullfilled) }
+  scope :canceled,   -> { where(state: :canceled) }
+
+  after_initialize :setup_instance_var
+
+  state_machine :initial => :ordered do
 
     after_failure :on => all - [:ordered] do |order, transition|
       # A lot to do when order fails
     end
 
-    after_transition any => :canceled, :do => :refund
+    after_transition any => :canceled, :do => :after_canceled
 
     around_transition do |order, transition, block|
       start = Time.now
@@ -39,24 +46,20 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def initialize(good)
+  def setup_instance_var
     @time_used = 0
     @order_note = 'Order created'
-    self.good = good
-    super()
   end
 
   def time_used
     @time_used.to_i / 1.day
   end
 
-  def refund(transition)
-    @order_note = transition.args.first if !transition.args.empty? and transition.args.first.is_a? String
+  def ready_to_ship?
+    !shipping_method.nil?
   end
 
-  private
-    def ready_to_ship?
-      
-    end
-
+  def after_canceled(transition)
+    @order_note = transition.args.first if !transition.args.empty? and transition.args.first.is_a? String
+  end
 end
